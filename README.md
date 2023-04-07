@@ -50,6 +50,8 @@ Format | Output
 
 Looking for times in the future or the past in your language?  Look no further.  These easy macros will pave the way to the future...
 
+Also, please check out [Relative-Time-Plus](https://github.com/TheFes/relative-time-plus) by TheFes.  It has differnt options for relative time, and it's more flexible than `easy_custom_time`.
+
 ## `easy_time(entity_id_or_time)`
 
 `easy_time` returns the most significant friendly relative time.  For example, if your uptime is 3 hours, 2 minutes, and 1 second, this macro will return `3 hours` in your default language.
