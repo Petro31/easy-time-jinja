@@ -8,6 +8,7 @@
     'lose': 'lose',
     'gain': 'gain',
     'time':{
+      'format': '12-hr',
       'year': [
         'yr',
         'year',
@@ -53,6 +54,7 @@
     'lose': 'verliezen',
     'gain': 'krijgen',
     'time':{
+      'format': '24-hr',
       'year': [
         'jr',
         'jaar',
@@ -98,6 +100,7 @@
     'lose': 'förlora',
     'gain': 'få',
     'time':{
+      'format': '24-hr',
       'year': [
         'Å',
         'år',
@@ -155,7 +158,18 @@
   'minute': 60,
   'second': 60,
 } %}
+
+{% set _time_formats = {
+  '12-hr': '%-I:%M %p',
+  '24-hr': '%H:%M',
+} %}
+
 {% set _default_values = _durations.keys() | list %}
+
+{%- macro _get_language_time_format(override) %}
+{%- set lang_fmat = languages.get(language, {}).get('time', {}).get('format', _bad_value) %}
+{%- set fmat = _time_formats.get(override) if override in _time_formats.keys() else lang_fmat %}
+{%- endmacro %}
 
 {%- macro _delta_seconds(a, b) %}
 {{- (b - a).total_seconds() | round(0) }}
@@ -433,3 +447,7 @@
 {%- endmacro %}
 
 {# format timedelta #}
+{%- macro clock(fmat=None) %}
+{{- now().strftime(_get_language_time_format(fmat)) }}
+{%- endmacro %}
+
