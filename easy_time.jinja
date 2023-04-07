@@ -1,6 +1,7 @@
 {%- set default_language = 'en' %}
 {%- set languages = {
   'en':{
+    '_language': 'English',
     'and': 'and',
     'in': 'in',
     'ago': 'ago',
@@ -44,9 +45,33 @@
       'today': 'today',
       'tomorrow': 'tomorrow',
       'yesterday': 'yesterday',
+    },
+    'days':{
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    },
+    'months':{
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     }
   },
   'nl':{
+    '_language': 'Dutch',
     'and': 'en',
     'in': 'over',
     'ago': 'geleden',
@@ -90,9 +115,33 @@
       'today': 'vandaag',
       'tomorrow': 'morgen',
       'yesterday': 'gisteren',
+    },
+    'days':{
+      "Maandag",
+      "Dinsdag",
+      "Woensdag",
+      "Donderdag",
+      "Vrijdag",
+      "Zaterdag",
+      "Zondag",
+    },
+    'months':{
+      'Januari',
+      'Februari',
+      'Maart',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Augustus',
+      'September',
+      'Oktober',
+      'November',
+      'December',
     }
   },
   'sv':{
+    '_language': 'Swedish',
     'and': 'och',
     'in': 'i',
     'ago': 'sedan',
@@ -136,7 +185,30 @@
       'today': 'idag',
       'tomorrow': 'imorgon',
       'yesterday': 'igår',
-    }
+    },
+    'days':{
+      "Måndag",
+      "Tisdag",
+      "Onsdag",
+      "Torsdag",
+      "Fredag",
+      "Lördag",
+      "Söndag",
+    },
+    'months':[
+      'Januari',
+      'Februari',
+      'Mars',
+      'April',
+      'Maj',
+      'Juni',
+      'Juli',
+      'Augusti',
+      'September',
+      'Oktober',
+      'November',
+      'December',
+    ]
   }
 } %}
 
@@ -347,10 +419,10 @@
 
 {# create an iso timestamp from month number, week number, day number #}
 {# Thanksgiving is 11, 4, 3 #}
-{%- macro month_week_day(month, week, day) -%}
+{%- macro month_week_day(month, week, weekday) -%}
 {%- set today = today_at() %}
 {%- set temp = today.replace(month=month, day=1) %}
-{%- set adjust = (day - temp.weekday()) % 7 %}
+{%- set adjust = (weekday - temp.isoweekday()) % 7 %}
 {%- set temp = temp + timedelta(days=adjust) -%}
 {{ (temp + timedelta(weeks = week - 1)).isoformat() }}
 {%- endmacro %}
@@ -361,13 +433,13 @@
 {%- endmacro %}
 
 {# create an iso timestamp on the last day of month number #}
-{%- macro last_day_in_month(month, day) -%}
+{%- macro last_day_in_month(month, weekday) -%}
 {%- set today = today_at() %}
 {%- set temp = today.replace(month=month, day=1) + timedelta(days=31) %}
 {%- set temp = temp.replace(day=1) - timedelta(days=7) %}
-{%- set adjust = (day - temp.weekday()) % 7 %}
+{%- set adjust = (day - temp.isoweekday()) % 7 %}
 {%- set temp = temp + timedelta(days=adjust) -%}
-{{ (temp).isoformat() }}
+{{- (temp).isoformat() }}
 {%- endmacro %}
 
 {# easter day as an iso timestamp #}
@@ -446,8 +518,16 @@
 {{- (next - today_at()).days if next is not none else 0 }}
 {%- endmacro %}
 
-{# format timedelta #}
 {%- macro clock(fmat=None) %}
 {{- now().strftime(_get_language_time_format(fmat)) }}
 {%- endmacro %}
 
+{%- macro month(month=None, language=default_language) %}
+{%- set idx = (month - 1) % 12 if month is integer and month > 0 else now().month - 1 %}
+{{- languages.get(language, {}).get('months', [_bad_value]*12)[idx] }}
+{%- endmacro %}
+
+{%- macro weekday(weekday=None, language=default_language) %}
+{%- set idx = (weekday - 1) % 7 if weekday is integer and day > 0 else now().weekday() %}
+{{- languages.get(language, {}).get('days', [_bad_value]*7)[idx] }}
+{%- endmacro %}

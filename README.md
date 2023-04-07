@@ -246,7 +246,7 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 These macros create iso formatted date strings that can easily be turned into datetime objects.
 
 
-## Arguments for each macro
+## Date Arugments
 
 <table>
 <tr><td valign="Top">
@@ -279,18 +279,54 @@ week | number
 
 </td><td valign="Top">
 
+weekday | number
+:-:|:-:
+Monday|1
+Tuesday|2
+Wednesday|3
+Thursday|4
+Friday|5
+Saturday|6
+Sunday|7
+
+</td><td valign="Top">
+
 day | number
 :-:|:-:
-Monday|0
-Tuesday|1
-Wednesday|2
-Thursday|3
-Friday|4
-Saturday|5
-Sunday|6
+1st | 1
+2nd | 2
+3rd | 3
+4th | 4
+5th | 5
+6th | 6
+7th | 7
+8th | 8
+9th | 9
+10th | 10
+11th | 11
+12th | 12
+13th | 13
+14th | 14
+15th | 15
+16th | 16
+17th | 17
+18th | 18
+19th | 19
+20th | 20
+21st | 21
+22nd | 22
+23rd | 23
+24th | 24
+25th | 25
+26th | 26
+27th | 27
+28th | 28
+29th | 29
+30th | 30
+31st | 31
 </td></tr> </table>
 
-## `month_week_day(month, week, day)`
+## `month_week_day(month, week, weekday)`
 
 This macro will return the nth day in the nth week of a month.  This is best used to get the 2nd tuesday of any month, or the Thanksgiving American Holiday!
 
@@ -312,7 +348,7 @@ This macro will return the nth day in the nth week of a month.  This is best use
 {{ month_week_day(1, 2, 2) | as_datetime }} 
 ```
 
-## `month_day(month, week, day)`
+## `month_day(month, day)`
 
 This macro will return the nth day in the nth week of a month.  This is best used to get the 2nd tuesday of any month, or the Thanksgiving American Holiday!
 
@@ -326,7 +362,7 @@ This macro will return the nth day in the nth week of a month.  This is best use
 {{ month_day(7, 4) | as_datetime }} 
 ```
 
-## `last_day_in_month(month, day)`
+## `last_day_in_month(month, weekday)`
 
 This macro will return the last day in a moth.  Do you ever want the last Sunday of each month?  Look no futhur.
 
@@ -400,9 +436,40 @@ This outputs the number of days until the next DST.  Useful for notifications.  
 {{ days_until_dst() | int }}
 ```
 
+# Translations
+
+
+## `month(month)`
+
+Outputs the current month in your langauge.  (Optional) Add the [month](https://github.com/Petro31/easy-time-jinja#arguments-for-each-macro) argument to get any translated month.
+
+```jinja
+{% from 'easy_time.jinja' import month %}
+
+{# current month #}
+{{ month() }}
+
+{# December #}
+{{ month(12) }}
+```
+
+## `weekday(weekday)`
+
+Outputs the current weekday in your langauge.  (Optional) Add the [weekday](https://github.com/Petro31/easy-time-jinja#date-arguments) argument to get any translated month.
+
+```jinja
+{% from 'easy_time.jinja' import weekday %}
+
+{# current weekday #}
+{{ weekday() }}
+
+{# Monday #}
+{{ weekday(1) }}
+```
+
 # Questions & Support
 
-For questions or support, please visit the home assistant forums [here](https://community.home-assistant.io/t/easy-time-macros-for-templates/557374)
+For questions or support, please visit the home assistant forums [here](https://github.com/Petro31/easy-time-jinja#date-arguments)
 
 ---
 
