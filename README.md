@@ -370,6 +370,10 @@ This outputs the number of days until the next DST.  Useful for notifications.  
 {{ days_until_dst() | int }}
 ```
 
+# Questions & Support
+
+For questions or support, please visit the home assistant forums [here](https://community.home-assistant.io/t/easy-time-macros-for-templates/557374)
+
 ---
 
 <a href="https://www.buymeacoffee.com/Petro31"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=Petro31&button_colour=5F7FFF&font_colour=ffffff&font_family=Poppins&outline_colour=000000&coffee_colour=FFDD00" /></a>
