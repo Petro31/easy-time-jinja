@@ -6,7 +6,7 @@
 
 # Easy Time
 
-Tired of getting help performing math with time?  Look no furhtur.  This Template extension for home assistant makes time easy calculations easy!
+Tired of getting help performing math with time?  Look no further.  This Template extension for home assistant makes time easy calculations easy!
 
 # Installation
 
