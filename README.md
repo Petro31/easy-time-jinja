@@ -16,7 +16,37 @@ After installation, you can edit the first line to set a default language, this 
 {%- set default_language = 'en' %}
 ```
 
-# Easy Relative Time Macros
+# Languages
+
+The current supported languages are:
+
+* English
+* Dutch - Thanks [TheFes](https://github.com/TheFes)
+* Swedish - Thanks [Hellis81](https://community.home-assistant.io/u/hellis81/summary)
+
+# Time Macros
+
+## `clock(time_format)`
+
+A simple clock's time.  Using `clock()` without arguments will use your languages settings.
+
+Arugment | Type | Default | Example | Description
+:-:|:-:|:-:|:-:|---
+time_format| str | - | `'12-hr'` | (Optional) `'12-hr'`, `'24-hr'`
+
+Format | Output
+:-:|:-:
+`'12-hr'` | 8:45 AM
+`'24-hr'` | 08:45
+
+### Examples
+
+```jinja
+{% from 'easy_time.jinja' import easy_time %}
+{{ clock() }}
+```
+
+# Relative Time Macros
 
 Looking for times in the future or the past in your language?  Look no further.  These easy macros will pave the way to the future...
 
@@ -211,7 +241,7 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 {{ custom_relative_time_attr('calendar.my_events', 'start_time', 'hour, minute', language='en', utc=True) }}
 ```
 
-# Easy Date Macros
+# Date Macros
 
 These macros create iso formatted date strings that can easily be turned into datetime objects.
 
@@ -324,7 +354,7 @@ Apparently easter falls on a different sunday ever year and it takes a small arm
 {{ easter() | as_datetime }} 
 ```
 
-# Easy Daylight Savings
+# Daylight Savings
 
 Ever wonder if you're falling behind or jumping ahead?  Want to be notified a week before daylight savings?  These templates will help with that.
 
