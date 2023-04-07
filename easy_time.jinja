@@ -1,4 +1,53 @@
-{%- from '_easy_time_language.jinja' import languages, default_language %}
+{%- set default_language = 'en' %}
+{%- set languages = {
+  'en':{
+    'and': 'and',
+    'in': 'in',
+    'ago': 'ago',
+    'now': 'now',
+    'lose': 'lose',
+    'gain': 'gain',
+    'time':{
+      'year': [
+        'yr',
+        'year',
+        'years',
+      ],
+      'week': [
+        'wk',
+        'week',
+        'weeks',
+      ],
+      'day': [
+        'd',
+        'day',
+        'days',
+      ],
+      'hour': [
+        'hr',
+        'hour',
+        'hours',
+      ],
+      'minute': [
+        'min',
+        'minute',
+        'minutes',
+      ],
+      'second': [
+        'sec',
+        'second',
+        'seconds',
+      ],
+    },
+    'delta':{
+      'today': 'today',
+      'tomorrow': 'tomorrow',
+      'yesterday': 'yesterday',
+    }
+  }
+} %}
+
+{# DO NOT MODIFY BELOW THIS LINE #}
 
 {% set _bad_value = '?' %}
 {% set _durations = {
@@ -132,8 +181,22 @@
 {%- endmacro %}
 
 {# Returns a time phrase with only the details you care about most of the time.  e.g.  3 hours and 4 minutes #}
-{%- macro custom_time(uptime, attribute=None, values=_default_values, language=default_language, utc=False) %}
-{{- _time(uptime, attribute, language, values, False, utc) }}
+{%- macro custom_time(uptime, values='', language=default_language, utc=False) %}
+{%- set args = values.replace(' ','').split(',') | list if values is string else [] %}
+{%- if args %}
+  {{- _time(uptime, None, language, args, False, utc) }}
+{%- else %}
+  {{- _time(uptime, attribute, language, _default_values, False, utc) }}
+{%- endif %}
+{%- endmacro %}
+
+{%- macro custom_time_attr(uptime, attribute, values='', language=default_language, utc=False) %}
+{%- set args = values.replace(' ','').split(',') | list if values is string else [] %}
+{%- if args %}
+  {{- _time(uptime, attribute, language, args, False, utc) }}
+{%- else %}
+  {{- _time(uptime, attribute, language, _default_values, False, utc) }}
+{%- endif %}
 {%- endmacro %}
 
 {# macro to generate a friendly relative time phrase #}
@@ -160,8 +223,22 @@
 {%- endmacro %}
 
 {# Returns a time phrase with only the details you care about most of the time.  e.g.  in 3 hours and 4 minutes #}
-{%- macro custom_relative_time(uptime, attribute=None, values=_default_values, language=default_language, utc=False) %}
-{{- _relative_time(uptime, attribute, language, values, False, utc) }}
+{%- macro custom_relative_time(uptime, values='', language=default_language, utc=False) %}
+{%- set args = values.replace(' ','').split(',') | list if values is string else [] %}
+{%- if args %}
+  {{- _relative_time(uptime, None, language, args, False, utc) }}
+{%- else %}
+  {{- _relative_time(uptime, attribute, language, _default_values, False, utc) }}
+{%- endif %}
+{%- endmacro %}
+
+{%- macro custom_relative_time_attr(uptime, attribute, values='', language=default_language, utc=False) %}
+{%- set args = values.replace(' ','').split(',') | list if values is string else [] %}
+{%- if args %}
+  {{- _relative_time(uptime, attribute, language, args, False, utc) }}
+{%- else %}
+  {{- _relative_time(uptime, attribute, language, _default_values, False, utc) }}
+{%- endif %}
 {%- endmacro %}
 
 {# create an iso timestamp from month number, week number, day number #}
