@@ -2,8 +2,6 @@
 ![Version](https://img.shields.io/github/v/release/Petro31/easy-time-jinja)
 ![Downloads](https://img.shields.io/github/downloads/Petro31/easy-time-jinja/total)
 
-<a href="https://www.buymeacoffee.com/Petro31"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=Petro31&button_colour=5F7FFF&font_colour=ffffff&font_family=Poppins&outline_colour=000000&coffee_colour=FFDD00" /></a>
-
 # Easy Time
 
 Tired of getting help performing math with time?  Look no further.  This Template extension for home assistant makes time easy calculations easy!
@@ -371,3 +369,7 @@ This outputs the number of days until the next DST.  Useful for notifications.  
 {{ days_until_dst() }} 
 {{ days_until_dst() | int }}
 ```
+
+---
+
+<a href="https://www.buymeacoffee.com/Petro31"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=Petro31&button_colour=5F7FFF&font_colour=ffffff&font_family=Poppins&outline_colour=000000&coffee_colour=FFDD00" /></a>
