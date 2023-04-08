@@ -1,7 +1,5 @@
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
 ![Version](https://img.shields.io/github/v/release/Petro31/easy-time-jinja)
-![Downloads](https://img.shields.io/github/downloads/Petro31/easy-time-jinja/total)
-
 # Easy Time
 
 Tired of getting help performing math with time?  Look no further.  This Template extension for home assistant makes time easy calculations easy!
@@ -23,6 +21,7 @@ The current supported languages are:
 * English
 * Dutch - Thanks [TheFes](https://github.com/TheFes)
 * Swedish - Thanks [Hellis81](https://community.home-assistant.io/u/hellis81/summary)
+* German - Thanks [kCologne](https://community.home-assistant.io/u/kCologne)
 
 # Time Macros
 
