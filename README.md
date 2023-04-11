@@ -22,6 +22,7 @@ The current supported languages are:
 * Dutch - Thanks [TheFes](https://github.com/TheFes)
 * Swedish - Thanks [Hellis81](https://community.home-assistant.io/u/hellis81/summary)
 * German - Thanks [kCologne](https://community.home-assistant.io/u/kCologne)
+* Danish - Thanks [CMDK](https://community.home-assistant.io/u/cmdk/summary)
 
 # Time Macros
 
