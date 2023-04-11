@@ -409,6 +409,35 @@ Apparently easter falls on a different sunday ever year and it takes a small arm
 {{ easter() }} 
 {{ easter() | as_datetime }} 
 ```
+# Counts
+
+## `days_in_month(month)`, `days_next_month(offset)`, `days_last_month(offset)`
+
+Output the number of days this month, or next month, or any month!
+### Examples
+
+```jinja
+{% from 'easy_time.jinja' import days_in_month %}
+
+{# Number of days this month #}
+{{ days_in_month() | int }}
+
+{# Number of days in december #}
+{{ days_in_month(12) | int }}
+
+{# Number of days in February #}
+{# works on leap year #}
+{{ days_in_month(2) | int }}
+
+{# Number of days next month #}
+{{ days_next_month() | int }}
+{# Optionally add an offset for further in the future #}
+{{ days_next_month(2) | int }}
+
+{# Number of days last month #}
+{{ days_last_month() | int }}
+```
+
 
 # Daylight Savings
 
