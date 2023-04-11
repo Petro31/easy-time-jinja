@@ -582,6 +582,24 @@
 {{- (temp).isoformat() }}
 {%- endmacro %}
 
+{%- macro _next_weekday(weekday, offset) %}
+{%- set wd = (weekday - 1) % 7 %}
+{%- set t = today_at() %}
+{{- t + timedelta(days=(wd - t.weekday()) + offset) }}
+{%- endmacro %}
+
+{%- macro next_weekday(weekday) %}
+{{- _next_weekday(weekday, 7) }}
+{%- endmacro %}
+
+{%- macro this_weekday(weekday) %}
+{{- _next_weekday(weekday, 0) }}
+{%- endmacro %}
+
+{%- macro last_weekday(weekday) %}
+{{- _next_weekday(weekday, -7) }}
+{%- endmacro %}
+
 {# easter day as an iso timestamp #}
 {%- macro easter() %}
 {%- set year = now().year %}

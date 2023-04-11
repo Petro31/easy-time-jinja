@@ -327,6 +327,25 @@ day | number
 31st | 31
 </td></tr> </table>
 
+## `this_weekday(weekday)`, `last_weekday(weekday)`, `next_weekday(weekday)`
+
+Get the day of the week, in the future or past.
+
+### Examples
+
+```jinja
+{% from 'easy_time.jinja' import this_weekday, last_weekday, next_weekday %}
+
+{# Get Tuesdays date, this week #}
+{{ this_weekday(2) | as_datetime }}
+
+{# Get Tuesdays date, next week #}
+{{ next_weekday(2) | as_datetime }}
+
+{# Get last Tuesdays date #}
+{{ last_weekday(2) | as_datetime}}
+```
+
 ## `month_week_day(month, week, weekday)`
 
 This macro will return the nth day in the nth week of a month.  This is best used to get the 2nd tuesday of any month, or the Thanksgiving American Holiday!
