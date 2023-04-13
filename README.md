@@ -24,6 +24,7 @@ The current supported languages are:
 * German - Thanks [kCologne](https://community.home-assistant.io/u/kCologne)
 * Danish - Thanks [CMDK](https://community.home-assistant.io/u/cmdk/summary)
 * French - Thanks [baylanger](https://github.com/baylanger)
+* Spanish - Thanks [Didgeridrew](https://community.home-assistant.io/u/Didgeridrew)
 
 # Time Macros
 
