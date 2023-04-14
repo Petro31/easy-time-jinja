@@ -64,6 +64,7 @@ entity_id_or_time| string, datetime, or entity_id | - | `'sensor.uptime'` | (Req
 attribute| str or None | No | `None` | (Optional) attribute to extract the desired time from.
 language| string | set by user | `'en'` | (Optional) Override the default language.
 utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum significant period.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`
 
 ### Examples
 
@@ -85,6 +86,7 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 {# Overriding language or utc entity attribute #}
 {{ easy_time("2023-04-07 00:00:00", 'en', True) }}
 {{ easy_time("2023-04-07 00:00:00", language='en', utc=True) }}
+{{ easy_time("2023-04-07 00:00:00", max_period='hour') }}
 {{ easy_time('calendar.my_events', 'end_time', 'en', True) }}
 {{ easy_time('calendar.my_events', 'end_time', language='en', utc=True) }}
 ```
@@ -99,6 +101,7 @@ entity_id_or_time| string, datetime, or entity_id | - | `'sensor.uptime'` | (Req
 attribute| str or None | No | `None` | (Optional) attribute to extract the desired time from.
 language| string | set by user | `'en'` | (Optional) Override the default language.
 utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum significant period.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`
 
 ### Examples
 
@@ -120,6 +123,7 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 {# Overriding language or utc entity attribute #}
 {{ big_time("2023-04-07 00:00:00", 'en', True) }}
 {{ big_time("2023-04-07 00:00:00", language='en', utc=True) }}
+{{ big_time("2023-04-07 00:00:00", max_period='hour') }}
 {{ big_time('calendar.my_events', 'end_time', 'en', True) }}
 {{ big_time('calendar.my_events', 'end_time', language='en', utc=True) }}
 ```
@@ -169,6 +173,7 @@ uptime| string, datetime, or entity_id | - | `'sensor.uptime'` | (Required) The 
 attribute| str or None | No | `None` | (Optional) attribute to extract the desired time from.
 language| string | set by user | `'en'` | (Optional) Override the default language.
 utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum significant period.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`
 
 ### Examples
 
@@ -190,6 +195,7 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 {# Overriding language or utc entity attribute #}
 {{ easy_relative_time("2023-04-07 00:00:00", 'en', True) }}
 {{ easy_relative_time("2023-04-07 00:00:00", language='en', utc=True) }}
+{{ easy_relative_time("2023-04-07 00:00:00", max_period='hour') }}
 {{ easy_relative_time('calendar.my_events', 'end_time', 'en', True) }}
 {{ easy_relative_time('calendar.my_events', 'end_time', language='en', utc=True) }}
 ```
@@ -204,6 +210,7 @@ uptime| string, datetime, or entity_id | - | `'sensor.uptime'` | (Required) The 
 attribute| str or None | No | `None` | (Optional) attribute to extract the desired time from.
 language| string | set by user | `'en'` | (Optional) Override the default language.
 utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum significant period.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`
 
 ### Examples
 
@@ -225,6 +232,7 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 {# Overriding language or utc entity attribute #}
 {{ big_relative_time("2023-04-07 00:00:00", 'en', True) }}
 {{ big_relative_time("2023-04-07 00:00:00", language='en', utc=True) }}
+{{ big_relative_time("2023-04-07 00:00:00", max_period='hour') }}
 {{ big_relative_time('calendar.my_events', 'end_time', 'en', True) }}
 {{ big_relative_time('calendar.my_events', 'end_time', language='en', utc=True) }}
 ```

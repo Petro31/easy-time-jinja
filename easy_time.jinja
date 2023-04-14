@@ -670,13 +670,15 @@
 {%- endmacro %}
 
 {# Returns the most significant time.  e.g.  3 hours #}
-{%- macro easy_time(uptime, attribute=None, language=default_language, utc=False) %}
-{{- _time(uptime, attribute, language, _default_values, True, utc) }}
+{%- macro easy_time(uptime, attribute=None, language=default_language, utc=False, max_period='year') %}
+{%- set values = _default_values[_default_values.index(max_period):] if max_period in _default_values else _default_values %}
+{{- _time(uptime, attribute, language, values, True, utc) }}
 {%- endmacro %}
 
 {# Returns a large time phrase without missing any detail.  e.g.  3 hours, 4 minutes and 1 second #}
-{%- macro big_time(uptime, attribute=None, language=default_language, utc=False) %}
-{{- _time(uptime, attribute, language, _default_values, False, utc) }}
+{%- macro big_time(uptime, attribute=None, language=default_language, utc=False, max_period='year') %}
+{%- set values = _default_values[_default_values.index(max_period):] if max_period in _default_values else _default_values %}
+{{- _time(uptime, attribute, language, values, False, utc) }}
 {%- endmacro %}
 
 {# Returns a time phrase with only the details you care about most of the time.  e.g.  3 hours and 4 minutes #}
@@ -717,13 +719,15 @@
 {%- endmacro %}
 
 {# Returns the most significant time.  e.g.  in 3 hours #}
-{%- macro easy_relative_time(uptime, attribute=None, language=default_language, utc=False) %}
-{{- _relative_time(uptime, attribute, language, _default_values, True, utc) }}
+{%- macro easy_relative_time(uptime, attribute=None, language=default_language, utc=False, max_period='year') %}
+{%- set values = _default_values[_default_values.index(max_period):] if max_period in _default_values else _default_values %}
+{{- _relative_time(uptime, attribute, language, values, True, utc) }}
 {%- endmacro %}
 
 {# Returns a large time phrase without missing any detail.  e.g.  in 3 hours, 4 minutes and 1 second #}
-{%- macro big_relative_time(uptime, attribute=None, language=default_language, utc=False) %}
-{{- _relative_time(uptime, attribute, language, _default_values, False, utc) }}
+{%- macro big_relative_time(uptime, attribute=None, language=default_language, utc=False, max_period='year') %}
+{%- set values = _default_values[_default_values.index(max_period):] if max_period in _default_values else _default_values %}
+{{- _relative_time(uptime, attribute, language, values, False, utc) }}
 {%- endmacro %}
 
 {# Returns a time phrase with only the details you care about most of the time.  e.g.  in 3 hours and 4 minutes #}
