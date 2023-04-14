@@ -44,7 +44,7 @@ Format | Output
 ### Examples
 
 ```jinja
-{% from 'easy_time.jinja' import easy_time %}
+{% from 'easy_time.jinja' import clock %}
 {{ clock() }}
 ```
 

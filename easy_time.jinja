@@ -515,12 +515,14 @@
   '12-hr': '%-I:%M %p',
   '24-hr': '%H:%M',
 } %}
+{% set _default_time_format = _time_formats.get('24-hr') %}
 
 {% set _default_values = _durations.keys() | list %}
 
-{%- macro _get_language_time_format(override) %}
+{%- macro _get_language_time_format(override, language) %}
 {%- set lang_fmat = languages.get(language, {}).get('time', {}).get('format', _bad_value) %}
-{%- set fmat = _time_formats.get(override) if override in _time_formats.keys() else lang_fmat %}
+{%- set fmat = _time_formats.get(override, _default_time_format) if override in _time_formats.keys() else _time_formats.get(lang_fmat, _default_time_format) %}
+{{- fmat }}
 {%- endmacro %}
 
 {%- macro _delta_seconds(a, b) %}
@@ -840,8 +842,8 @@
 {{- (next - today_at()).days if next is not none else 0 }}
 {%- endmacro %}
 
-{%- macro clock(fmat=None) %}
-{{- now().strftime(_get_language_time_format(fmat)) }}
+{%- macro clock(fmat=None, language=default_language) %}
+{{- now().strftime(_get_language_time_format(fmat, language)) }}
 {%- endmacro %}
 
 {%- macro month(month=None, language=default_language) %}
