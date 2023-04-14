@@ -561,6 +561,8 @@
       {{- _to_datetime(state_attr(input, attribute), None) -}}
     {%- elif input.startswith('input_datetime') and is_state_attr(input, 'has_date', False) -%}
       {{- today_at(states(input)) }}
+    {%- elif input.startswith('calendar') and attribute is none %}
+      {{- _to_datetime(state_attr(input, 'start_time'), None) -}}
     {%- else %}
       {{- _to_datetime(states(input), None) -}}
     {%- endif %}

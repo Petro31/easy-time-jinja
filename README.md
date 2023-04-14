@@ -76,14 +76,17 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 {# Last Updated #}
 {{ easy_time(states.sensor.my_energy_meter.last_updated) }}
 
-{# Calendar entity attribute #}
-{{ easy_time('calendar.my_events', 'start_time') }}
+{# Calendars - start time #}
+{# By default, easy_time macros assumes you'd like the start time #}
+{{ easy_time('calendar.my_events') }}
+{# Calendars - end time #}
+{{ easy_time('calendar.my_events', 'end_time') }}
 
 {# Overriding language or utc entity attribute #}
 {{ easy_time("2023-04-07 00:00:00", 'en', True) }}
 {{ easy_time("2023-04-07 00:00:00", language='en', utc=True) }}
-{{ easy_time('calendar.my_events', 'start_time', 'en', True) }}
-{{ easy_time('calendar.my_events', 'start_time', language='en', utc=True) }}
+{{ easy_time('calendar.my_events', 'end_time', 'en', True) }}
+{{ easy_time('calendar.my_events', 'end_time', language='en', utc=True) }}
 ```
 
 ## `big_time(entity_id_or_time)`
@@ -108,14 +111,17 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 {# Last Updated #}
 {{ big_time(states.sensor.my_energy_meter.last_updated) }}
 
-{# Calendar entity attribute #}
-{{ big_time('calendar.my_events', 'start_time') }}
+{# Calendars - start time #}
+{# By default, easy_time macros assumes you'd like the start time #}
+{{ big_time('calendar.my_events') }}
+{# Calendars - end time #}
+{{ big_time('calendar.my_events', 'end_time') }}
 
 {# Overriding language or utc entity attribute #}
 {{ big_time("2023-04-07 00:00:00", 'en', True) }}
 {{ big_time("2023-04-07 00:00:00", language='en', utc=True) }}
-{{ big_time('calendar.my_events', 'start_time', 'en', True) }}
-{{ big_time('calendar.my_events', 'start_time', language='en', utc=True) }}
+{{ big_time('calendar.my_events', 'end_time', 'en', True) }}
+{{ big_time('calendar.my_events', 'end_time', language='en', utc=True) }}
 ```
 
 ## `custom_time(entity_id_or_time, values)` and `custom_time_attr(entity_id, attribute, values)`
@@ -137,17 +143,20 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 
 {# From an entity state #}
 {# NOTE: the value after the = sign for minute and hour can be anything. #}
-{{ custom_time('input_datetime.alarm_time', hour=1, minute=1) }}
+{{ custom_time('input_datetime.alarm_time', 'hour, minute') }}
 
-{# Calendar entity attribute #}
-{{ custom_time_attr('calendar.my_events', 'start_time', hour=1, minute=1) }}
+{# Calendars - start time #}
+{# By default, easy_time macros assumes you'd like the start time #}
+{{ custom_time('calendar.my_events', 'hour, minute') }}
+{# Calendars - end time #}
+{{ custom_time_attr('calendar.my_events', 'end_time', 'hour, minute') }}
 
 {# Last Updated #}
-{{ custom_time(states.sensor.my_energy_meter.last_updated, hour=1, minute=1) }}
+{{ custom_time(states.sensor.my_energy_meter.last_updated, 'hour, minute') }}
 
 {# Overriding language or utc entity attribute #}
 {{ custom_time("2023-04-07 00:00:00", 'hour', 'minute', language='en', utc=True) }}
-{{ custom_time_attr('calendar.my_events', 'start_time', 'hour', 'minute', language='en', utc=True) }}
+{{ custom_time_attr('calendar.my_events', 'end_time', 'hour, minute', language='en', utc=True) }}
 ```
 
 ## `easy_relative_time(entity_id_or_time)`
@@ -172,14 +181,17 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 {# Last Updated #}
 {{ easy_relative_time(states.sensor.my_energy_meter.last_updated) }}
 
-{# Calendar entity attribute #}
-{{ easy_relative_time('calendar.my_events', 'start_time') }}
+{# Calendars - start time #}
+{# By default, easy_time macros assumes you'd like the start time #}
+{{ easy_relative_time('calendar.my_events', 'hour, minute') }}
+{# Calendars - end time #}
+{{ easy_relative_time('calendar.my_events', 'end_time', 'hour, minute') }}
 
 {# Overriding language or utc entity attribute #}
 {{ easy_relative_time("2023-04-07 00:00:00", 'en', True) }}
 {{ easy_relative_time("2023-04-07 00:00:00", language='en', utc=True) }}
-{{ easy_relative_time('calendar.my_events', 'start_time', 'en', True) }}
-{{ easy_relative_time('calendar.my_events', 'start_time', language='en', utc=True) }}
+{{ easy_relative_time('calendar.my_events', 'end_time', 'en', True) }}
+{{ easy_relative_time('calendar.my_events', 'end_time', language='en', utc=True) }}
 ```
 
 ## `big_relative_time(entity_id_or_time)`
@@ -204,14 +216,17 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 {# Last Updated #}
 {{ big_relative_time(states.sensor.my_energy_meter.last_updated) }}
 
-{# Calendar entity attribute #}
-{{ big_relative_time('calendar.my_events', 'start_time') }}
+{# Calendars - start time #}
+{# By default, easy_time macros assumes you'd like the start time #}
+{{ big_relative_time('calendar.my_events') }}
+{# Calendars - end time #}
+{{ big_relative_time('calendar.my_events', 'end_time') }}
 
 {# Overriding language or utc entity attribute #}
 {{ big_relative_time("2023-04-07 00:00:00", 'en', True) }}
 {{ big_relative_time("2023-04-07 00:00:00", language='en', utc=True) }}
-{{ big_relative_time('calendar.my_events', 'start_time', 'en', True) }}
-{{ big_relative_time('calendar.my_events', 'start_time', language='en', utc=True) }}
+{{ big_relative_time('calendar.my_events', 'end_time', 'en', True) }}
+{{ big_relative_time('calendar.my_events', 'end_time', language='en', utc=True) }}
 ```
 
 ## `custom_relative_time(entity_id_or_time, values)` and `custom_relative_time_attr(entity_id, attribute, values)`
@@ -237,12 +252,15 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 {# Last Updated #}
 {{ custom_relative_time(states.sensor.my_energy_meter.last_updated, 'hour, minute') }}
 
-{# Calendar entity attribute #}
-{{ custom_relative_time_attr('calendar.my_events', 'start_time', 'hour, minute') }}
+{# Calendars - start time #}
+{# By default, easy_time macros assumes you'd like the start time #}
+{{ custom_relative_time('calendar.my_events', 'hour, minute') }}
+{# Calendars - end time #}
+{{ custom_relative_time_attr('calendar.my_events', 'end_time', 'hour, minute') }}
 
 {# Overriding language or utc entity attribute #}
 {{ custom_relative_time("2023-04-07 00:00:00", 'hour, minute', language='en', utc=True) }}
-{{ custom_relative_time_attr('calendar.my_events', 'start_time', 'hour, minute', language='en', utc=True) }}
+{{ custom_relative_time_attr('calendar.my_events', 'end_time', 'hour, minute', language='en', utc=True) }}
 ```
 
 # Date Macros
