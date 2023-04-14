@@ -120,7 +120,7 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 
 ## `custom_time(entity_id_or_time, values)` and `custom_time_attr(entity_id, attribute, values)`
 
-`custom_time` and `custom_time_attr` returns the friendly relative time providing detials that are to your needs... most of the time.  For example, if your uptime is 3 hours, 2 minutes, and 1 second, this macro will return `3 hours and 2 minutes` in your default language.
+`custom_time` and `custom_time_attr` returns the friendly relative time providing ddetails that match your needs.  For example, if your uptime is 3 hours, 2 minutes, and 1 second, this macro will return `3 hours and 2 minutes` in your default language.
 
 Arugment | Type | Default | Example | Description
 :-:|:-:|:-:|:-:|---

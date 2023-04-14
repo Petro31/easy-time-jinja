@@ -587,41 +587,71 @@
 {%- endif -%}
 {%- endmacro -%}
 
-{# macro to generate a time #}
-{%- macro _phrase(id, uptime_seconds, language) %}
-{%- set lang = languages.get(language, {}).get('time', {}).get(id, [_bad_value]*3) %}
-{%- set abbr, single, plural = lang %}
+{%- macro _get_period_value(id, uptime_seconds) %}
 {%- set duration = _durations.get(id, 1) %}
 {%- set period = _periods.get(id) %}
-{%- set value = ((uptime_seconds // duration) % (period if period else duration)) | int %}
-{%- set name = plural if value > 1 else single %}
-{{- '{} {}'.format(value, name) if value | int > 0 else '' -}}
+{{- ((uptime_seconds // duration) % (period if period else duration)) | int }}
+{%- endmacro %}
+
+{%- macro _get_period_max(id, uptime_seconds) %}
+{%- set duration = _durations.get(id, 1) %}
+{%- set period = _periods.get(id) %}
+{{- uptime_seconds // duration }}
+{%- endmacro %}
+
+{# macro to generate a time #}
+{%- macro _phrase(id, uptime_seconds, language, max, raw) %}
+{%- set lang = languages.get(language, {}).get('time', {}).get(id, [_bad_value]*3) %}
+{%- set abbr, single, plural = lang %}
+{%- set func = _get_period_max if max else _get_period_value %}
+{%- set value = func(id, uptime_seconds) | int %}
+{%- set name = plural if value != 1 else single %}
+{{- '{} {}'.format(value, name) if value | int > 0 or raw else '' -}}
 {% endmacro %}
 
-{# macro to generate a friendly phrase #}
-{%- macro _just_time(seconds, language, values, biggest, utc) %}
+{%- macro _time_dict(uptime_seconds) %}
 {%- set ns = namespace(ret=[]) %}
 {%- for item in _default_values %}
-  {%- set phrase = _phrase(item, seconds, language) %}
+  {%- set ns.ret = ns.ret + [(item, _get_period_value(item, uptime_seconds) | int)] %}
+{%- endfor %}
+{{- dict.from_keys(ns.ret) | to_json }}
+{%- endmacro %}
+
+{%- macro _phrases(seconds, values, language, raw) %}
+{%- set ns = namespace(ret=[]) %}
+{#- ensure we have a list of values #}
+{%- set values = [ values ] if values is string else values %}
+{#- filter values to only have items in _default_values #}
+{%- set values = values | select('in', _default_values) | list %}
+{#- this should be a good list of values if the previous 2 filters didn't remove anything #}
+{%- set values = _default_values | select('in', values) | list if values else _default_values %}
+{%- set biggest = values | first | default %}
+{%- set index = values.index(biggest) %}
+{%- for item in values[index:] %}
+  {%- set phrase = _phrase(item, seconds, language, loop.first, raw) %}
   {%- if phrase %}
-    {%- set ns.ret = ns.ret + [{'id': item, 'phrase': phrase }] %}
+    {%- set ns.ret = ns.ret + [phrase] %}
   {%- endif %}
 {%- endfor %}
-{%- if ns.ret | length > 0 %}
-  {%- set phrases = ns.ret | map(attribute='phrase') | list %}
-  {%- set selected_phrases = ns.ret | selectattr('id', 'in', values) | map(attribute='phrase') | list %}
-  {%- if selected_phrases | length > 0 %}
+{{- ns.ret | to_json }}
+{%- endmacro %}
+
+{# macro to generate a friendly phrase #}
+{%- macro _just_time(seconds, language, values, biggest, raw=False) %}
+{%- if seconds < 1 %}
+  {{- languages.get(language, {}).get('now', _bad_value) }}
+{%- else %}
+  {%- set phrases = _phrases(seconds, values, language, raw) | from_json %}
+  {%- if phrases | length > 0 %}
     {%- if biggest %}
-      {{- selected_phrases[0] }}
+      {{- phrases[0] }}
     {%- else %}
       {%- set word_for_and = languages.get(language, {}).get('and', _bad_value) %}
-      {{- selected_phrases[:-1] | join(', ') ~ ' ' ~ word_for_and ~ ' ' ~ selected_phrases[-1] if selected_phrases | length > 1 else selected_phrases | first  | default }}
+      {{- phrases[:-1] | join(', ') ~ ' ' ~ word_for_and ~ ' ' ~ phrases[-1] if phrases | length > 1 else phrases | first  | default }}
     {%- endif %}
   {%- else %}
-    {{- phrases[0] }}
+    {{- _just_time(seconds, language, values, biggest, True) }}
   {%- endif %}
-{%- else %}
-  {{- languages.get(language, {}).get('now', _bad_value) }}
 {%- endif %}
 {%- endmacro %}
 
@@ -631,7 +661,7 @@
 {%- if uptime %}
   {%- set value = _delta_seconds(now(), uptime) | int %}
   {%- set seconds = value | abs %}
-  {{- _just_time(seconds, language, values, biggest, utc) }}
+  {{- _just_time(seconds, language, values, biggest) }}
 {%- else %}
   {{- _bad_value }}
 {%- endif %}
@@ -673,7 +703,7 @@
   {%- set value = _delta_seconds(now(), uptime) | int %}
   {%- set seconds = value | abs %}
   {%- set future = value / seconds > 0 %}
-  {%- set items = _just_time(seconds, language, values, biggest, utc) %}
+  {%- set items = _just_time(seconds, language, values, biggest) %}
   {%- if future %}
     {{- languages.get(language, {}).get('in', _bad_value) }} {{ items }}
   {%- else %}
