@@ -354,7 +354,7 @@
     '_language': 'Français',
     'and': 'et',
     'in': 'dans',
-    'ago': 'il y a',
+    'ago': '%s il y a',
     'now': 'maintenant',
     'lose': 'perdre',
     'gain': 'gagner',
@@ -711,7 +711,12 @@
   {%- if future %}
     {{- languages.get(language, {}).get('in', _bad_value) }} {{ items }}
   {%- else %}
-    {{- items }} {{ languages.get(language, {}).get('ago', _bad_value) }}
+    {%- set t = languages.get(language, {}).get('ago', _bad_value) %}
+    {%- if '%s' in t %}
+      {{ t % items }}
+    {%- else %}
+      {{- items }} {{ languages.get(language, {}).get('ago', _bad_value) }}
+    {%- endif %}
   {%- endif %}
 {%- else %}
   {{- _bad_value }}
