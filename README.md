@@ -48,6 +48,27 @@ Format | Output
 {{ clock() }}
 ```
 
+## `clock_icon(hour)`
+
+A simple clock's icon.  Using `clock_icon()` without arguments will produce the current time's clock icon to the nearest half hour.
+
+Arugment | Type | Default | Example | Description
+:-:|:-:|:-:|:-:|---
+hour| int | - | `1` | (Optional) Hour of the day.
+
+### Examples
+
+```jinja
+{% from 'easy_time.jinja' import clock_icon %}
+
+{# Return the current time icon #}
+{{ clock_icon() }}
+
+{# Return midnight or noon's current time icon #}
+{{ clock_icon(0) }}
+{{ clock_icon(12) }}
+```
+
 # Relative Time Macros
 
 Looking for times in the future or the past in your language?  Look no further.  These easy macros will pave the way to the future...
