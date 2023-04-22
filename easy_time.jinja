@@ -924,6 +924,18 @@
 {{- now().strftime(_get_language_time_format(fmat, language)) }}
 {%- endmacro %}
 
+{%- set _clock_icon = ['twelve','one','two','three','four','five','six','seven','eight','nine','ten','eleven'] %}
+
+{%- macro clock_icon(hour=None) -%}
+{%- if hour is none or hour is not integer -%}
+  {%- set t = now() -%}
+  {%- set h = (t.hour + t.minute // 30) % 12 %}
+  {{- 'mdi:clock-time-' ~ _clock_icon[h] -}}
+{%- else -%}
+  {{- 'mdi:clock-time-' ~ _clock_icon[hour % 12] -}}
+{%- endif -%}
+{%- endmacro -%}
+
 {%- macro month(month=None, language=default_language) %}
 {%- set idx = (month - 1) % 12 if month is integer and month > 0 else now().month - 1 %}
 {{- languages.get(language, {}).get('months', [_bad_value]*12)[idx] }}
