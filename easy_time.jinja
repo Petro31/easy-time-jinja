@@ -510,6 +510,13 @@
   'minute': 60,
   'second': 60,
 } %}
+{%- set _duration_sensor = {
+  'd': 86400,
+  'h': 3600,
+  'min': 60,
+  's': 1,
+} %}
+
 
 {% set _time_formats = {
   '12-hr': '%-I:%M %p',
@@ -538,6 +545,16 @@
 {%- set time = now() -%}
 {%- set offset = time.utcoffset() - time.dst() if time.dst() else time.utcoffset() -%}
 {{- dt.astimezone(utcnow().tzinfo) + offset -}}
+{%- endmacro -%}
+
+{%- macro _check_for_duration_sensor(input) %}
+{%- if input is string and input | regex_search('^(?!.+__)(?!_)[\da-z_]+(?<!_)\.(?!_)[\da-z_]+(?<!_)$') and input.startswith('sensor') and states[input] is not none and states[input].attributes.device_class is defined and states[input].attributes.unit_of_measurement is defined -%}
+  {%- set obj = states[input] -%}
+  {%- set divisor = _duration_sensor.get(obj.attributes.unit_of_measurement) -%}
+  {{- (obj.state | float / divisor) | string | as_timedelta -}}
+{%- else %}
+  {{- '' -}}
+{%- endif -%}
 {%- endmacro -%}
 
 {%- macro _to_datetime(input, attribute=None, utc=False) -%}
@@ -659,13 +676,19 @@
 
 {# macro to generate a friendly time phrase #}
 {%- macro _time(input, attribute, language, values, biggest, utc) %}
-{%- set uptime = _to_datetime(input, attribute, utc) | as_datetime %}
-{%- if uptime %}
-  {%- set value = _delta_seconds(now(), uptime) | int %}
-  {%- set seconds = value | abs %}
+{%- set duration_sensor = _check_for_duration_sensor(input) %}
+{%- if duration_sensor %}
+  {%- set seconds = as_timedelta(duration_sensor).total_seconds() %}
   {{- _just_time(seconds, language, values, biggest) }}
 {%- else %}
-  {{- _bad_value }}
+  {%- set uptime = _to_datetime(input, attribute, utc) | as_datetime %}
+  {%- if uptime %}
+    {%- set value = _delta_seconds(now(), uptime) | int %}
+    {%- set seconds = value | abs %}
+    {{- _just_time(seconds, language, values, biggest) }}
+  {%- else %}
+    {{- _bad_value }}
+  {%- endif %}
 {%- endif %}
 {%- endmacro %}
 
