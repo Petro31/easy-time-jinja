@@ -942,6 +942,6 @@
 {%- endmacro %}
 
 {%- macro weekday(weekday=None, language=default_language) %}
-{%- set idx = (weekday - 1) % 7 if weekday is integer and day > 0 else now().weekday() %}
+{%- set idx = (weekday - 1) % 7 if weekday is integer and weekday > 0 else now().weekday() %}
 {{- languages.get(language, {}).get('days', [_bad_value]*7)[idx] }}
 {%- endmacro %}
