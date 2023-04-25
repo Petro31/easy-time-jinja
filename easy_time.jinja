@@ -45,6 +45,8 @@
       'today': 'today',
       'tomorrow': 'tomorrow',
       'yesterday': 'yesterday',
+      'next': 'next',
+      'last': 'last',
     },
     'days':[
       "Monday",
@@ -587,7 +589,6 @@
   's': 1,
 } %}
 
-
 {% set _time_formats = {
   '12-hr': '%-I:%M %p',
   '24-hr': '%H:%M',
@@ -1024,4 +1025,40 @@
 {%- macro weekday(weekday=None, language=default_language) %}
 {%- set idx = (weekday - 1) % 7 if weekday is integer and weekday > 0 else now().weekday() %}
 {{- languages.get(language, {}).get('days', [_bad_value]*7)[idx] }}
+{%- endmacro %}
+
+{%- macro count_the_days(input, attr, utc=False) %}
+{%- set input = _to_datetime(input, attr, utc) | as_datetime %}
+{%- set midnight = today_at() %}
+{{ (input - midnight).days }}
+{%- endmacro %}
+
+{%- macro speak_the_days(input, attr, language=default_language, utc=False) %}
+{%- set lang_fmat = languages.get(language, {}).get('delta', {}) %}
+{%- set _days = {'-1': lang_fmat.get('yesterday', _bad_value), '0': lang_fmat.get('today', _bad_value), '1': lang_fmat.get('tomorrow', _bad_value)} %}
+{%- set midnight = today_at() %}
+{%- set ns = namespace(days=[]) %}
+{%- for i in range(-7, 14) %}
+  {%- set strindex = i | string %}
+  {%- set prefix = lang_fmat.get('last', _bad_value) ~ ' ' if i < -1 else lang_fmat.get('next', _bad_value) ~ ' ' if i > 6 else '' %}
+  {%- set ns.days = ns.days + [ (strindex, prefix ~  _days.get(strindex, weekday(midnight.weekday() + i + 1, language))) ] %}
+{%- endfor %}
+{%- set collection = dict.from_keys(ns.days) %}
+{%- set days = count_the_days(input, attr, utc) %}
+{%- if days in collection %}
+  {{- collection.get(days) }}
+{%- else %}
+  {%- set days = days | int %}
+  {%- set ret = _phrase('day', days | abs * 86400, language, 'day', True) %}
+  {%- if days > 0 %}
+    {{- languages.get(language, {}).get('in', _bad_value) }} {{ ret }}
+  {%- else %}
+    {%- set t = languages.get(language, {}).get('ago', _bad_value) %}
+    {%- if '%s' in t %}
+      {{- t % ret }}
+    {%- else %}
+      {{- ret }} {{ languages.get(language, {}).get('ago', _bad_value) }}
+    {%- endif %}
+  {%- endif %}
+{%- endif %}
 {%- endmacro %}
