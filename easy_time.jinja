@@ -641,7 +641,7 @@
 {%- elif input is integer or input is float -%}
   {{- input | as_datetime -}}
 {#- assume time as string or entity_id -#}
-{%- elif input is string -%}
+{%- elif input is string and input not in ['', 'None'] -%}
   {#- if entity_id -#}
   {%- if input | regex_search('^(?!.+__)(?!_)[\da-z_]+(?<!_)\.(?!_)[\da-z_]+(?<!_)$') -%}
     {%- if attribute is not none and attribute is string -%}
