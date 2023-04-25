@@ -488,6 +488,74 @@ Output the number of days this month, or next month, or any month!
 {{ days_last_month() | int }}
 ```
 
+## `count_the_days(entity_id_or_time)`
+
+`count_the_days` returns the number of days between now and your event.  For example, if your event is in 1 day, this macro will return `1`.
+
+Arugment | Type | Default | Example | Description
+:-:|:-:|:-:|:-:|---
+entity_id_or_time| string, datetime, or entity_id | - | `'sensor.uptime'` | (Required) The entity_id, date string, or datetime object.
+attribute| str or None | No | `None` | (Optional) attribute to extract the desired time from.
+language| string | set by user | `'en'` | (Optional) Override the default language.
+utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+
+### Examples
+
+```jinja
+{% from 'easy_time.jinja' import count_the_days %}
+
+{# From an entity state #}
+{{ count_the_days('input_datetime.alarm_time') }}
+
+{# Last Updated #}
+{{ count_the_days(states.sensor.my_energy_meter.last_updated) }}
+
+{# Calendars - start time #}
+{# By default, easy_time macros assumes you'd like the start time #}
+{{ count_the_days('calendar.my_events') }}
+{# Calendars - end time #}
+{{ count_the_days('calendar.my_events', 'end_time') }}
+
+{# Overriding language or utc entity attribute #}
+{{ count_the_days("2023-04-07 00:00:00", utc=True) }}
+{{ count_the_days('calendar.my_events', 'end_time', True) }}
+{{ count_the_days('calendar.my_events', 'end_time', utc=True) }}
+```
+
+## `speak_the_days(entity_id_or_time)`
+
+`speak_the_days` returns the number of days between now and your event on your default language.  For example, if your event is in 1 day, this macro will return `tomorrow` in your default language.
+
+Arugment | Type | Default | Example | Description
+:-:|:-:|:-:|:-:|---
+entity_id_or_time| string, datetime, or entity_id | - | `'sensor.uptime'` | (Required) The entity_id, date string, or datetime object.
+attribute| str or None | No | `None` | (Optional) attribute to extract the desired time from.
+language| string | set by user | `'en'` | (Optional) Override the default language.
+utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+
+### Examples
+
+```jinja
+{% from 'easy_time.jinja' import speak_the_days %}
+
+{# From an entity state #}
+{{ speak_the_days('input_datetime.alarm_time') }}
+
+{# Last Updated #}
+{{ speak_the_days(states.sensor.my_energy_meter.last_updated) }}
+
+{# Calendars - start time #}
+{# By default, easy_time macros assumes you'd like the start time #}
+{{ speak_the_days('calendar.my_events') }}
+{# Calendars - end time #}
+{{ speak_the_days('calendar.my_events', 'end_time') }}
+
+{# Overriding language or utc entity attribute #}
+{{ speak_the_days("2023-04-07 00:00:00", 'en', True) }}
+{{ speak_the_days("2023-04-07 00:00:00", language='en', utc=True) }}
+{{ speak_the_days('calendar.my_events', 'end_time', 'en', True) }}
+{{ speak_the_days('calendar.my_events', 'end_time', language='en', utc=True) }}
+```
 
 # Daylight Savings
 
