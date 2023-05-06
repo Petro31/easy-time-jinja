@@ -1,5 +1,9 @@
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
 ![Version](https://img.shields.io/github/v/release/Petro31/easy-time-jinja)
+
+<a href="https://www.buymeacoffee.com/Petro31"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=Petro31&button_colour=5F7FFF&font_colour=ffffff&font_family=Poppins&outline_colour=000000&coffee_colour=FFDD00" width=auto, height=30/></a>
+
+
 # Easy Time
 
 Tired of getting help performing math with time?  Look no further.  This Template extension for home assistant makes time easy calculations easy!
@@ -292,6 +296,149 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 {# Overriding language or utc entity attribute #}
 {{ custom_relative_time("2023-04-07 00:00:00", 'hour, minute', language='en', utc=True) }}
 {{ custom_relative_time_attr('calendar.my_events', 'end_time', 'hour, minute', language='en', utc=True) }}
+```
+
+# Difference Macros
+
+These macros create times or phrases between 2 inputs.
+
+## `easy_time_between(entity_id_or_time1, entity_id_or_time2)`
+
+`easy_time_between` returns the most significant friendly relative time.  For example, if the time between t1 and t2 is 3 hours, 2 minutes, and 1 second, this macro will return `3 hours` in your default language.
+
+Arugment | Type | Default | Example | Description
+:-:|:-:|:-:|:-:|---
+entity_id_or_time1| string, datetime, or entity_id | - | `'calendar.abc'` | (Required) The first entity_id, date string, or datetime object.
+entity_id_or_time2| string, datetime, or entity_id | - | `'calendar.xyz'` | (Required) The second entity_id, date string, or datetime object.
+attr1| str or None | No | `None` | (Optional) attribute to extract from entity_id_or_time1
+attr2| str or None | No | `None` | (Optional) attribute to extract from entity_id_or_time2
+language| string | set by user | `'en'` | (Optional) Override the default language.
+utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time1` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time2` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum significant period.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`
+
+### Examples
+
+```jinja
+{% from 'easy_time.jinja' import easy_time_between %}
+
+{# Between 2 entities #}
+{{ easy_time_between('sensor.a', 'sensor.b') }}
+
+{# Calendars - start time #}
+{# By default, easy_time_between macros assumes you'd like the start time #}
+{{ easy_time_between('calendar.my_events', 'calendar.my_orther_events') }}
+{# Calendars - end time #}
+{{ easy_time_between('calendar.my_events', 'calendar.my_events', 'end_time', 'end_time') }}
+{{ easy_time_between('calendar.my_events', 'calendar.my_events', attr1='end_time', attr2='end_time') }}
+{# Duration of your calendar event #}
+{{ easy_time_between('calendar.my_events', 'calendar.my_events', attr2='end_time') }}
+
+{# Overriding language or utc entity attribute #}
+{{ easy_time_between("2023-04-07 00:00:00", now(), language='en', utc=True) }}
+```
+
+## `big_time_between(entity_id_or_time1, entity_id_or_time2)`
+
+`big_time_between` returns the most significant friendly relative time.  For example, if the time between t1 and t2 is 3 hours, 2 minutes, and 1 second, this macro will return `3 hours, 2 minutes, and 1 second` in your default language.
+
+Arugment | Type | Default | Example | Description
+:-:|:-:|:-:|:-:|---
+entity_id_or_time1| string, datetime, or entity_id | - | `'calendar.abc'` | (Required) The first entity_id, date string, or datetime object.
+entity_id_or_time2| string, datetime, or entity_id | - | `'calendar.xyz'` | (Required) The second entity_id, date string, or datetime object.
+attr1| str or None | No | `None` | (Optional) attribute to extract from entity_id_or_time1
+attr2| str or None | No | `None` | (Optional) attribute to extract from entity_id_or_time2
+language| string | set by user | `'en'` | (Optional) Override the default language.
+utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time1` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time2` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum significant period.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`
+
+### Examples
+
+```jinja
+{% from 'easy_time.jinja' import big_time_between %}
+
+{# Between 2 entities #}
+{{ big_time_between('sensor.a', 'sensor.b') }}
+
+{# Calendars - start time #}
+{# By default, big_time_between macros assumes you'd like the start time #}
+{{ big_time_between('calendar.my_events', 'calendar.my_orther_events') }}
+{# Calendars - end time #}
+{{ big_time_between('calendar.my_events', 'calendar.my_events', 'end_time', 'end_time') }}
+{{ big_time_between('calendar.my_events', 'calendar.my_events', attr1='end_time', attr2='end_time') }}
+{# Duration of your calendar event #}
+{{ big_time_between('calendar.my_events', 'calendar.my_events', attr2='end_time') }}
+
+{# Overriding language or utc entity attribute #}
+{{ big_time_between("2023-04-07 00:00:00", now(), language='en', utc=True) }}
+```
+
+## `custom_time_between(entity_id_or_time, entity_id_or_time2, values)`
+
+`custom_time_between` returns the friendly relative time providing ddetails that match your needs.  For example, if your uptime is 3 hours, 2 minutes, and 1 second, this macro will return `3 hours and 2 minutes` in your default language.
+
+Arugment | Type | Default | Example | Description
+:-:|:-:|:-:|:-:|---
+entity_id_or_time1| string, datetime, or entity_id | - | `'calendar.abc'` | (Required) The first entity_id, date string, or datetime object.
+entity_id_or_time2| string, datetime, or entity_id | - | `'calendar.xyz'` | (Required) The second entity_id, date string, or datetime object.
+values | string | none | `'day, hour, minute'` | (Required) Options for displaying time.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`. 
+attr1| str or None | No | `None` | (Optional) attribute to extract from entity_id_or_time1
+attr2| str or None | No | `None` | (Optional) attribute to extract from entity_id_or_time2
+language| string | set by user | `'en'` | (Optional) Override the default language.
+utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time1` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time2` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+
+### Examples
+
+```jinja
+{% from 'easy_time.jinja' import custom_time_between %}
+
+{# Between 2 entities #}
+{{ custom_time_between('sensor.a', 'sensor.b', 'hour, minute') }}
+
+{# Calendars - start time #}
+{# By default, custom_time_between macros assumes you'd like the start time #}
+{{ custom_time_between('calendar.my_events', 'calendar.my_orther_events', 'hour, minute') }}
+{# Calendars - end time #}
+{{ custom_time_between('calendar.my_events', 'calendar.my_events', 'hour, minute', 'end_time', 'end_time') }}
+{{ custom_time_between('calendar.my_events', 'calendar.my_events', 'hour, minute', attr1='end_time', attr2='end_time') }}
+{# Duration of your calendar event #}
+{{ custom_time_between('calendar.my_events', 'calendar.my_events', 'hour, minute', attr2='end_time') }}
+
+{# Overriding language or utc entity attribute #}
+{{ custom_time_between("2023-04-07 00:00:00", now(), 'hour, minute', language='en', utc=True) }}
+```
+
+## `time_between(entity_id_or_time1, entity_id_or_time2)`
+
+`time_between` returns a time_detla between two entities.
+
+Arugment | Type | Default | Example | Description
+:-:|:-:|:-:|:-:|---
+entity_id_or_time1| string, datetime, or entity_id | - | `'calendar.abc'` | (Required) The first entity_id, date string, or datetime object.
+entity_id_or_time2| string, datetime, or entity_id | - | `'calendar.xyz'` | (Required) The second entity_id, date string, or datetime object.
+attr1| str or None | No | `None` | (Optional) attribute to extract from entity_id_or_time1
+attr2| str or None | No | `None` | (Optional) attribute to extract from entity_id_or_time2
+utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time1` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time2` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+
+### Examples
+
+```jinja
+{% from 'easy_time.jinja' import time_between %}
+
+{# Between 2 entities #}
+{{ time_between('sensor.a', 'sensor.b') }}
+
+{# Calendars - start time #}
+{# By default, easy_time_between macros assumes you'd like the start time #}
+{{ time_between('calendar.my_events', 'calendar.my_orther_events') }}
+{# Calendars - end time #}
+{{ time_between('calendar.my_events', 'calendar.my_events', 'end_time', 'end_time') }}
+{{ time_between('calendar.my_events', 'calendar.my_events', attr1='end_time', attr2='end_time') }}
+{# Duration of your calendar event #}
+{{ time_between('calendar.my_events', 'calendar.my_events', attr2='end_time') }}
 ```
 
 # Date Macros
@@ -639,7 +786,3 @@ Outputs the current weekday in your langauge.  (Optional) Add the [weekday](http
 # Questions & Support
 
 For questions or support, please visit the home assistant forums [here](https://github.com/Petro31/easy-time-jinja#date-arguments)
-
----
-
-<a href="https://www.buymeacoffee.com/Petro31"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=Petro31&button_colour=5F7FFF&font_colour=ffffff&font_family=Poppins&outline_colour=000000&coffee_colour=FFDD00" /></a>
