@@ -26,6 +26,7 @@ The current supported languages are:
 * French - Thanks [baylanger](https://github.com/baylanger)
 * Spanish - Thanks [Didgeridrew](https://community.home-assistant.io/u/Didgeridrew)
 * Italian - Thanks [Gianpi](https://github.com/jumping2000)
+* Portuguese - Thanks [FragMenthor](https://github.com/FragMenthor)
 
 # Time Macros
 
