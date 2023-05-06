@@ -182,7 +182,7 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 {{ custom_time(states.sensor.my_energy_meter.last_updated, 'hour, minute') }}
 
 {# Overriding language or utc entity attribute #}
-{{ custom_time("2023-04-07 00:00:00", 'hour', 'minute', language='en', utc=True) }}
+{{ custom_time("2023-04-07 00:00:00", 'hour, minute', language='en', utc=True) }}
 {{ custom_time_attr('calendar.my_events', 'end_time', 'hour, minute', language='en', utc=True) }}
 ```
 
