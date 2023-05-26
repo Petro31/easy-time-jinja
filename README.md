@@ -31,6 +31,7 @@ The current supported languages are:
 * Spanish - Thanks [Didgeridrew](https://community.home-assistant.io/u/Didgeridrew)
 * Italian - Thanks [Gianpi](https://github.com/jumping2000)
 * Portuguese - Thanks [FragMenthor](https://github.com/FragMenthor)
+* Croatian - Thanks [IgorSimic](https://github.com/IgorSimic)
 
 # Time Macros
 
