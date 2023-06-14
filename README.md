@@ -39,7 +39,7 @@ The current supported languages are:
 
 A simple clock's time.  Using `clock()` without arguments will use your languages settings.
 
-Arugment | Type | Default | Example | Description
+Argument | Type | Default | Example | Description
 :-:|:-:|:-:|:-:|---
 time_format| str | - | `'12-hr'` | (Optional) `'12-hr'`, `'24-hr'`
 
@@ -59,7 +59,7 @@ Format | Output
 
 A simple clock's icon.  Using `clock_icon()` without arguments will produce the current time's clock icon to the nearest half hour.
 
-Arugment | Type | Default | Example | Description
+Argument | Type | Default | Example | Description
 :-:|:-:|:-:|:-:|---
 hour| int | - | `1` | (Optional) Hour of the day.
 
@@ -86,7 +86,7 @@ Also, please check out [Relative-Time-Plus](https://github.com/TheFes/relative-t
 
 `easy_time` returns the most significant friendly relative time.  For example, if your uptime is 3 hours, 2 minutes, and 1 second, this macro will return `3 hours` in your default language.
 
-Arugment | Type | Default | Example | Description
+Argument | Type | Default | Example | Description
 :-:|:-:|:-:|:-:|---
 entity_id_or_time| string, datetime, or entity_id | - | `'sensor.uptime'` | (Required) The entity_id, date string, or datetime object.
 attribute| str or None | No | `None` | (Optional) attribute to extract the desired time from.
@@ -123,7 +123,7 @@ max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum signif
 
 `big_time` returns the friendly relative time without missing any details.  For example, if your uptime is 3 hours, 2 minutes, and 1 second, this macro will return `3 hours, 2 minutes, and 1 second` in your default language.
 
-Arugment | Type | Default | Example | Description
+Argument | Type | Default | Example | Description
 :-:|:-:|:-:|:-:|---
 entity_id_or_time| string, datetime, or entity_id | - | `'sensor.uptime'` | (Required) The entity_id, date string, or datetime object.
 attribute| str or None | No | `None` | (Optional) attribute to extract the desired time from.
@@ -158,9 +158,9 @@ max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum signif
 
 ## `custom_time(entity_id_or_time, values)` and `custom_time_attr(entity_id, attribute, values)`
 
-`custom_time` and `custom_time_attr` returns the friendly relative time providing ddetails that match your needs.  For example, if your uptime is 3 hours, 2 minutes, and 1 second, this macro will return `3 hours and 2 minutes` in your default language.
+`custom_time` and `custom_time_attr` returns the friendly relative time providing details that match your needs.  For example, if your uptime is 3 hours, 2 minutes, and 1 second, this macro will return `3 hours and 2 minutes` in your default language.
 
-Arugment | Type | Default | Example | Description
+Argument | Type | Default | Example | Description
 :-:|:-:|:-:|:-:|---
 uptime| string, datetime, or entity_id | - | `'sensor.uptime'` | (Required) The entity_id, date string, or datetime object.
 attribute| str or None | No | `None` | (Required for `custom_time_attr`) attribute to extract the desired time from.
@@ -195,7 +195,7 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 
 `easy_relative_time` returns the most significant friendly relative time.  For example, if your uptime is 3 hours, 2 minutes, and 1 second, this macro will return `in 3 hours` or `3 hours ago` in your default language.
 
-Arugment | Type | Default | Example | Description
+Argument | Type | Default | Example | Description
 :-:|:-:|:-:|:-:|---
 uptime| string, datetime, or entity_id | - | `'sensor.uptime'` | (Required) The entity_id, date string, or datetime object.
 attribute| str or None | No | `None` | (Optional) attribute to extract the desired time from.
@@ -232,7 +232,7 @@ max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum signif
 
 `big_relative_time` returns the friendly relative time without missing any details.  For example, if your uptime is 3 hours, 2 minutes, and 1 second, this macro will return `in 3 hours, 2 minutes and 1 second` or `3 hours, 2 minutes and 1 second ago` in your default language.
 
-Arugment | Type | Default | Example | Description
+Argument | Type | Default | Example | Description
 :-:|:-:|:-:|:-:|---
 uptime| string, datetime, or entity_id | - | `'sensor.uptime'` | (Required) The entity_id, date string, or datetime object.
 attribute| str or None | No | `None` | (Optional) attribute to extract the desired time from.
@@ -267,9 +267,9 @@ max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum signif
 
 ## `custom_relative_time(entity_id_or_time, values)` and `custom_relative_time_attr(entity_id, attribute, values)`
 
-`custom_relative_time` and `custom_relative_time_attr` returns the friendly relative time providing detials that are to your needs... most of the time.  For example, if your uptime is 3 hours, 2 minutes, and 1 second, this macro will return `3 hours and 2 minutes` in your default language.
+`custom_relative_time` and `custom_relative_time_attr` returns the friendly relative time providing details that are to your needs... most of the time.  For example, if your uptime is 3 hours, 2 minutes, and 1 second, this macro will return `3 hours and 2 minutes` in your default language.
 
-Arugment | Type | Default | Example | Description
+Argument | Type | Default | Example | Description
 :-:|:-:|:-:|:-:|---
 uptime| string, datetime, or entity_id | - | `'sensor.uptime'` | (Required) The entity_id, date string, or datetime object.
 attribute| str or None | No | `None` | (Required for `custom_relative_time_attr`) attribute to extract the desired time from.
@@ -307,7 +307,7 @@ These macros create times or phrases between 2 inputs.
 
 `easy_time_between` returns the most significant friendly relative time.  For example, if the time between t1 and t2 is 3 hours, 2 minutes, and 1 second, this macro will return `3 hours` in your default language.
 
-Arugment | Type | Default | Example | Description
+Argument | Type | Default | Example | Description
 :-:|:-:|:-:|:-:|---
 entity_id_or_time1| string, datetime, or entity_id | - | `'calendar.abc'` | (Required) The first entity_id, date string, or datetime object.
 entity_id_or_time2| string, datetime, or entity_id | - | `'calendar.xyz'` | (Required) The second entity_id, date string, or datetime object.
@@ -343,7 +343,7 @@ max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum signif
 
 `big_time_between` returns the most significant friendly relative time.  For example, if the time between t1 and t2 is 3 hours, 2 minutes, and 1 second, this macro will return `3 hours, 2 minutes, and 1 second` in your default language.
 
-Arugment | Type | Default | Example | Description
+Argument | Type | Default | Example | Description
 :-:|:-:|:-:|:-:|---
 entity_id_or_time1| string, datetime, or entity_id | - | `'calendar.abc'` | (Required) The first entity_id, date string, or datetime object.
 entity_id_or_time2| string, datetime, or entity_id | - | `'calendar.xyz'` | (Required) The second entity_id, date string, or datetime object.
@@ -377,9 +377,9 @@ max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum signif
 
 ## `custom_time_between(entity_id_or_time, entity_id_or_time2, values)`
 
-`custom_time_between` returns the friendly relative time providing ddetails that match your needs.  For example, if your uptime is 3 hours, 2 minutes, and 1 second, this macro will return `3 hours and 2 minutes` in your default language.
+`custom_time_between` returns the friendly relative time providing details that match your needs.  For example, if your uptime is 3 hours, 2 minutes, and 1 second, this macro will return `3 hours and 2 minutes` in your default language.
 
-Arugment | Type | Default | Example | Description
+Argument | Type | Default | Example | Description
 :-:|:-:|:-:|:-:|---
 entity_id_or_time1| string, datetime, or entity_id | - | `'calendar.abc'` | (Required) The first entity_id, date string, or datetime object.
 entity_id_or_time2| string, datetime, or entity_id | - | `'calendar.xyz'` | (Required) The second entity_id, date string, or datetime object.
@@ -413,9 +413,9 @@ utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time2` argum
 
 ## `time_between(entity_id_or_time1, entity_id_or_time2)`
 
-`time_between` returns a time_detla between two entities.
+`time_between` returns a time_delta between two entities.
 
-Arugment | Type | Default | Example | Description
+Argument | Type | Default | Example | Description
 :-:|:-:|:-:|:-:|---
 entity_id_or_time1| string, datetime, or entity_id | - | `'calendar.abc'` | (Required) The first entity_id, date string, or datetime object.
 entity_id_or_time2| string, datetime, or entity_id | - | `'calendar.xyz'` | (Required) The second entity_id, date string, or datetime object.
@@ -447,7 +447,7 @@ utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time2` argum
 These macros create iso formatted date strings that can easily be turned into datetime objects.
 
 
-## Date Arugments
+## Date Arguments
 
 <table>
 <tr><td valign="Top">
@@ -642,7 +642,7 @@ Output the number of days this month, or next month, or any month!
 
 `count_the_days` returns the number of days between now and your event.  For example, if your event is in 1 day, this macro will return `1`.
 
-Arugment | Type | Default | Example | Description
+Argument | Type | Default | Example | Description
 :-:|:-:|:-:|:-:|---
 entity_id_or_time| string, datetime, or entity_id | - | `'sensor.uptime'` | (Required) The entity_id, date string, or datetime object.
 attribute| str or None | No | `None` | (Optional) attribute to extract the desired time from.
@@ -676,7 +676,7 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 
 `speak_the_days` returns the number of days between now and your event on your default language.  For example, if your event is in 1 day, this macro will return `tomorrow` in your default language.
 
-Arugment | Type | Default | Example | Description
+Argument | Type | Default | Example | Description
 :-:|:-:|:-:|:-:|---
 entity_id_or_time| string, datetime, or entity_id | - | `'sensor.uptime'` | (Required) The entity_id, date string, or datetime object.
 attribute| str or None | No | `None` | (Optional) attribute to extract the desired time from.
