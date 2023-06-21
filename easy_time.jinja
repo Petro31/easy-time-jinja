@@ -885,7 +885,7 @@
         {{- _is_datetime -}}
       {%- elif utc -%}
         {#- UTC -#}
-        {{- input ~ '+00:00' | as_datetime }}
+        {{- (input ~ '+00:00') | as_datetime }}
       {%- else -%}
         {#- Local -#}
         {{- _is_datetime | as_local -}}
