@@ -1122,7 +1122,7 @@
 {%- set today = today_at() %}
 {%- set temp = today.replace(month=month, day=1) + timedelta(days=31) %}
 {%- set temp = temp.replace(day=1) - timedelta(days=7) %}
-{%- set adjust = (day - temp.isoweekday()) % 7 %}
+{%- set adjust = (weekday - temp.isoweekday()) % 7 %}
 {%- set temp = temp + timedelta(days=adjust) -%}
 {{- (temp).isoformat() }}
 {%- endmacro %}
