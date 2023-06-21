@@ -112,7 +112,7 @@ max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum signif
 {{ easy_time('calendar.my_events', 'end_time') }}
 
 {# Overriding language or utc entity attribute #}
-{{ easy_time("2023-04-07 00:00:00", 'en', True) }}
+{{ easy_time("2023-04-07 00:00:00", None, 'en', True) }}
 {{ easy_time("2023-04-07 00:00:00", language='en', utc=True) }}
 {{ easy_time("2023-04-07 00:00:00", max_period='hour') }}
 {{ easy_time('calendar.my_events', 'end_time', 'en', True) }}
@@ -149,7 +149,7 @@ max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum signif
 {{ big_time('calendar.my_events', 'end_time') }}
 
 {# Overriding language or utc entity attribute #}
-{{ big_time("2023-04-07 00:00:00", 'en', True) }}
+{{ big_time("2023-04-07 00:00:00", None, 'en', True) }}
 {{ big_time("2023-04-07 00:00:00", language='en', utc=True) }}
 {{ big_time("2023-04-07 00:00:00", max_period='hour') }}
 {{ big_time('calendar.my_events', 'end_time', 'en', True) }}
@@ -221,7 +221,7 @@ max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum signif
 {{ easy_relative_time('calendar.my_events', 'end_time', 'hour, minute') }}
 
 {# Overriding language or utc entity attribute #}
-{{ easy_relative_time("2023-04-07 00:00:00", 'en', True) }}
+{{ easy_relative_time("2023-04-07 00:00:00", None, 'en', True) }}
 {{ easy_relative_time("2023-04-07 00:00:00", language='en', utc=True) }}
 {{ easy_relative_time("2023-04-07 00:00:00", max_period='hour') }}
 {{ easy_relative_time('calendar.my_events', 'end_time', 'en', True) }}
@@ -258,7 +258,7 @@ max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum signif
 {{ big_relative_time('calendar.my_events', 'end_time') }}
 
 {# Overriding language or utc entity attribute #}
-{{ big_relative_time("2023-04-07 00:00:00", 'en', True) }}
+{{ big_relative_time("2023-04-07 00:00:00", None, 'en', True) }}
 {{ big_relative_time("2023-04-07 00:00:00", language='en', utc=True) }}
 {{ big_relative_time("2023-04-07 00:00:00", max_period='hour') }}
 {{ big_relative_time('calendar.my_events', 'end_time', 'en', True) }}
