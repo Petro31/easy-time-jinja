@@ -32,6 +32,7 @@ The current supported languages are:
 * Italian - Thanks [Gianpi](https://github.com/jumping2000)
 * Portuguese - Thanks [FragMenthor](https://github.com/FragMenthor)
 * Croatian - Thanks [IgorSimic](https://github.com/IgorSimic)
+* Polish - Thanks [Szymon Jankowski](https://github.com/sjankowski)
 
 # Time Macros
 
