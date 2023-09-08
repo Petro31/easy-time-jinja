@@ -33,6 +33,7 @@ The current supported languages are:
 * Portuguese - Thanks [FragMenthor](https://github.com/FragMenthor)
 * Croatian - Thanks [IgorSimic](https://github.com/IgorSimic)
 * Polish - Thanks [Szymon Jankowski](https://github.com/sjankowski)
+* Norwegian (Bokmål and Nynorsk) - Thanks [Peder Stray](https://github.com/pstray/)
 
 # Time Macros
 
