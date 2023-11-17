@@ -1498,7 +1498,7 @@
 {%- macro count_the_days(input, attr, utc=False) %}
 {%- set input = _to_datetime(input, attr, utc) | as_datetime %}
 {%- set midnight = today_at() %}
-{{ (input - midnight).days }}
+{{- (input - midnight).days }}
 {%- endmacro %}
 
 {%- macro speak_the_days(input, attr, language=default_language, utc=False) %}
