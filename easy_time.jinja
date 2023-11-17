@@ -1474,12 +1474,24 @@
 {%- endmacro -%}
 
 {%- macro month(month=None, language=default_language) %}
-{%- set idx = (month - 1) % 12 if month is integer and month > 0 else now().month - 1 %}
+{%- if month is datetime %}
+{%- set idx = month.month - 1 %}
+{%- elif month is integer and month > 0 %}
+{%- set idx = (month - 1) % 12 %}
+{%- else %}
+{%- set idx = now().month - 1 %}
+{%- endif %}
 {{- languages.get(language, {}).get('months', [_bad_value]*12)[idx] }}
 {%- endmacro %}
 
 {%- macro weekday(weekday=None, language=default_language) %}
-{%- set idx = (weekday - 1) % 7 if weekday is integer and weekday > 0 else now().weekday() %}
+{%- if weekday is datetime %}
+{%- set idx = weekday.weekday() %}
+{%- elif weekday is integer and weekday > 0 %}
+{%- set idx = (weekday - 1) % 7 %}
+{%- else %}
+{%- set idx = now().weekday() %}
+{%- endif %}
 {{- languages.get(language, {}).get('days', [_bad_value]*7)[idx] }}
 {%- endmacro %}
 
