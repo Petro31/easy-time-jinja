@@ -96,6 +96,8 @@ attribute| str or None | No | `None` | (Optional) attribute to extract the desir
 language| string | set by user | `'en'` | (Optional) Override the default language.
 utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
 max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum significant period.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`
+short | boolean | `False` | `True` | (Optional) Outputs abbreviated values.  E.g. `12hr 50min`.
+floor | boolean |  `False` | `True` | (Optional) The time will chop the value instead of rounding.  E.g.  If the duration is 10.6 mintues, the output will be `10 Minutes` instead of `11 minutes`.
 
 ### Examples
 
@@ -133,6 +135,7 @@ attribute| str or None | No | `None` | (Optional) attribute to extract the desir
 language| string | set by user | `'en'` | (Optional) Override the default language.
 utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
 max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum significant period.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`
+short | boolean | `False` | `True` | (Optional) Outputs abbreviated values.  E.g. `12hr 50min`.
 
 ### Examples
 
@@ -170,6 +173,7 @@ attribute| str or None | No | `None` | (Required for `custom_time_attr`) attribu
 values | string | none | `'day, hour, minute'` | (Required) Options for displaying time.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`. 
 language| string | set by user | `'en'` | (Optional) Override the default language.
 utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+short | boolean | `False` | `True` | (Optional) Outputs abbreviated values.  E.g. `12hr 50min`.
 
 ### Examples
 
@@ -205,6 +209,8 @@ attribute| str or None | No | `None` | (Optional) attribute to extract the desir
 language| string | set by user | `'en'` | (Optional) Override the default language.
 utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
 max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum significant period.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`
+short | boolean | `False` | `True` | (Optional) Outputs abbreviated values.  E.g. `12hr 50min`.
+floor | boolean |  `False` | `True` | (Optional) The time will chop the value instead of rounding.  E.g.  If the duration is 10.6 mintues, the output will be `10 Minutes` instead of `11 minutes`.
 
 ### Examples
 
@@ -242,6 +248,7 @@ attribute| str or None | No | `None` | (Optional) attribute to extract the desir
 language| string | set by user | `'en'` | (Optional) Override the default language.
 utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
 max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum significant period.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`
+short | boolean | `False` | `True` | (Optional) Outputs abbreviated values.  E.g. `12hr 50min`.
 
 ### Examples
 
@@ -279,6 +286,7 @@ attribute| str or None | No | `None` | (Required for `custom_relative_time_attr`
 values | string | none | `'day, hour, minute'` | (Required) Options for displaying time.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`. 
 language| string | set by user | `'en'` | (Optional) Override the default language.
 utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+short | boolean | `False` | `True` | (Optional) Outputs abbreviated values.  E.g. `12hr 50min`.
 
 ### Examples
 
@@ -320,6 +328,8 @@ language| string | set by user | `'en'` | (Optional) Override the default langua
 utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time1` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
 utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time2` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
 max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum significant period.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`
+short | boolean | `False` | `True` | (Optional) Outputs abbreviated values.  E.g. `12hr 50min`.
+floor | boolean |  `False` | `True` | (Optional) The time will chop the value instead of rounding.  E.g.  If the duration is 10.6 mintues, the output will be `10 Minutes` instead of `11 minutes`.
 
 ### Examples
 
@@ -356,6 +366,7 @@ language| string | set by user | `'en'` | (Optional) Override the default langua
 utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time1` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
 utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time2` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
 max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum significant period.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`
+short | boolean | `False` | `True` | (Optional) Outputs abbreviated values.  E.g. `12hr 50min`.
 
 ### Examples
 
@@ -392,6 +403,7 @@ attr2| str or None | No | `None` | (Optional) attribute to extract from entity_i
 language| string | set by user | `'en'` | (Optional) Override the default language.
 utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time1` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
 utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time2` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+short | boolean | `False` | `True` | (Optional) Outputs abbreviated values.  E.g. `12hr 50min`.
 
 ### Examples
 
@@ -761,7 +773,7 @@ This outputs the number of days until the next DST.  Useful for notifications.  
 
 ## `month(month)`
 
-Outputs the current month in your langauge.  (Optional) Add the [month](https://github.com/Petro31/easy-time-jinja#arguments-for-each-macro) argument to get any translated month.
+Outputs the current month in your langauge.  (Optional) Add the [month](https://github.com/Petro31/easy-time-jinja#arguments-for-each-macro) argument to get any translated month.  The `month` argument can also be a datetime object.
 
 ```jinja
 {% from 'easy_time.jinja' import month %}
@@ -775,7 +787,7 @@ Outputs the current month in your langauge.  (Optional) Add the [month](https://
 
 ## `weekday(weekday)`
 
-Outputs the current weekday in your langauge.  (Optional) Add the [weekday](https://github.com/Petro31/easy-time-jinja#date-arguments) argument to get any translated month.
+Outputs the current weekday in your langauge.  (Optional) Add the [weekday](https://github.com/Petro31/easy-time-jinja#date-arguments) argument to get any translated weekday.  The `weekday` argument can also be a datetime object.
 
 ```jinja
 {% from 'easy_time.jinja' import weekday %}
