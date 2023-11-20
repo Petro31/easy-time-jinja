@@ -1195,7 +1195,7 @@
       {%- else %}
         {%- set chosen = value %}
       {%- endif %}
-      {%- set chosen = value | int %}
+      {%- set chosen = chosen | int %}
       {%- if short %}
         {%- set units = translate('time', item, index=0, language=language) %}
       {%- else %}
