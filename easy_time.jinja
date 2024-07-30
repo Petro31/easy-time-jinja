@@ -1541,7 +1541,7 @@
 {%- macro weekday(weekday=None, language=None) %}
 {%- if weekday is datetime %}
 {%- set idx = weekday.weekday() %}
-{%- elif weekday is integer and weekday > 0 %}
+{%- elif weekday is integer %}
 {%- set idx = (weekday - 1) % 7 %}
 {%- else %}
 {%- set idx = now().weekday() %}
