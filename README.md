@@ -35,6 +35,7 @@ The current supported languages are:
 * Polish - Thanks [Szymon Jankowski](https://github.com/sjankowski)
 * Norwegian (Bokmål and Nynorsk) - Thanks [Peder Stray](https://github.com/pstray/)
 * Slavic - Thanks [Misa1515](https://github.com/misa1515)
+* Russian - Thanks [ildar170975](https://github.com/ildar170975)
 
 # Time Macros
 
