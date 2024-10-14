@@ -1561,7 +1561,7 @@
 {%- set ns = namespace(days=[]) %}
 {%- for i in range(-7, 14) %}
   {%- set prefix = translate('delta', 'last', language=language) ~ ' ' if i < -1 else translate('delta', 'next', language=language)  ~ ' ' if i > 6 else '' %}
-  {%- set ns.days = ns.days + [ (i | string, prefix ~  _days.get(i, weekday(midnight.weekday() + i + 1, language))) ] %}
+  {%- set ns.days = ns.days + [ (i | string, prefix ~  _days.get(i, weekday(midnight.weekday() + (i % 7) + 1, language))) ] %}
 {%- endfor %}
 {%- set collection = dict.from_keys(ns.days) %}
 {%- set days = count_the_days(input, attr, utc) %}
