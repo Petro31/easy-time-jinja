@@ -688,41 +688,6 @@ utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not 
 {{ count_the_days('calendar.my_events', 'end_time', utc=True) }}
 ```
 
-## `speak_the_days(entity_id_or_time)`
-
-`speak_the_days` returns the number of days between now and your event on your default language.  For example, if your event is in 1 day, this macro will return `tomorrow` in your default language.
-
-Argument | Type | Default | Example | Description
-:-:|:-:|:-:|:-:|---
-entity_id_or_time| string, datetime, or entity_id | - | `'sensor.uptime'` | (Required) The entity_id, date string, or datetime object.
-attribute| str or None | No | `None` | (Optional) attribute to extract the desired time from.
-language| string | set by user | `'en'` | (Optional) Override the default language.
-utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
-
-### Examples
-
-```jinja
-{% from 'easy_time.jinja' import speak_the_days %}
-
-{# From an entity state #}
-{{ speak_the_days('input_datetime.alarm_time') }}
-
-{# Last Updated #}
-{{ speak_the_days(states.sensor.my_energy_meter.last_updated) }}
-
-{# Calendars - start time #}
-{# By default, easy_time macros assumes you'd like the start time #}
-{{ speak_the_days('calendar.my_events') }}
-{# Calendars - end time #}
-{{ speak_the_days('calendar.my_events', 'end_time') }}
-
-{# Overriding language or utc entity attribute #}
-{{ speak_the_days("2023-04-07 00:00:00", 'en', True) }}
-{{ speak_the_days("2023-04-07 00:00:00", language='en', utc=True) }}
-{{ speak_the_days('calendar.my_events', 'end_time', 'en', True) }}
-{{ speak_the_days('calendar.my_events', 'end_time', language='en', utc=True) }}
-```
-
 # Daylight Savings
 
 Ever wonder if you're falling behind or jumping ahead?  Want to be notified a week before daylight savings?  These templates will help with that.
@@ -774,7 +739,7 @@ This outputs the number of days until the next DST.  Useful for notifications.  
 
 ## `month(month)`
 
-Outputs the current month in your langauge.  (Optional) Add the [month](https://github.com/Petro31/easy-time-jinja#arguments-for-each-macro) argument to get any translated month.  The `month` argument can also be a datetime object.
+Outputs the current month in your langauge.  (Optional) Add the [month](https://github.com/Petro31/easy-time-jinja#arguments-for-each-macro) argument to get any translated month.  The `month` argument can also be a datetime object or entity_id.
 
 ```jinja
 {% from 'easy_time.jinja' import month %}
@@ -788,7 +753,7 @@ Outputs the current month in your langauge.  (Optional) Add the [month](https://
 
 ## `weekday(weekday)`
 
-Outputs the current weekday in your langauge.  (Optional) Add the [weekday](https://github.com/Petro31/easy-time-jinja#date-arguments) argument to get any translated weekday.  The `weekday` argument can also be a datetime object.
+Outputs the current weekday in your langauge.  (Optional) Add the [weekday](https://github.com/Petro31/easy-time-jinja#date-arguments) argument to get any translated weekday.  The `weekday` argument can also be a datetime object or entity_id.
 
 ```jinja
 {% from 'easy_time.jinja' import weekday %}
@@ -799,6 +764,93 @@ Outputs the current weekday in your langauge.  (Optional) Add the [weekday](http
 {# Monday #}
 {{ weekday(1) }}
 ```
+
+## `hour(hour)`
+
+Outputs the current hour in your language.  (Optional) Add the [hour](https://github.com/Petro31/easy-time-jinja#date-arguments) argument to get any translated hour.  The `hour` argument can also be a datetime object or entity_id.
+
+```jinja
+{% from 'easy_time.jinja' import weekday %}
+
+{# current weekday #}
+{{ weekday() }}
+
+{# Monday #}
+{{ weekday(1) }}
+```
+
+# Voice
+
+## `speak_the_days(entity_id_or_time)`
+
+`speak_the_days` returns the number of days between now and your event on your default language.  For example, if your event is in 1 day, this macro will return `tomorrow` in your default language.
+
+Argument | Type | Default | Example | Description
+:-:|:-:|:-:|:-:|---
+entity_id_or_time| string, datetime, or entity_id | - | `'sensor.uptime'` | (Required) The entity_id, date string, or datetime object.
+attribute| str or None | No | `None` | (Optional) attribute to extract the desired time from.
+language| string | set by user | `'en'` | (Optional) Override the default language.
+utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+
+### Examples
+
+```jinja
+{% from 'easy_time.jinja' import speak_the_days %}
+
+{# From an entity state #}
+{{ speak_the_days('input_datetime.alarm_time') }}
+
+{# Last Updated #}
+{{ speak_the_days(states.sensor.my_energy_meter.last_updated) }}
+
+{# Calendars - start time #}
+{# By default, easy_time macros assumes you'd like the start time #}
+{{ speak_the_days('calendar.my_events') }}
+{# Calendars - end time #}
+{{ speak_the_days('calendar.my_events', 'end_time') }}
+
+{# Overriding language or utc entity attribute #}
+{{ speak_the_days("2023-04-07 00:00:00", 'en', True) }}
+{{ speak_the_days("2023-04-07 00:00:00", language='en', utc=True) }}
+{{ speak_the_days('calendar.my_events', 'end_time', 'en', True) }}
+{{ speak_the_days('calendar.my_events', 'end_time', language='en', utc=True) }}
+```
+
+## `clock_phrase(entity_id_or_time)`
+
+`clock_phrase` returns the current time in your default language.  For example, if your event is at noon, this macro will return `noon` in your default language.  If the event is at 11:15, the phrase will say `quarter past 11`.
+
+Argument | Type | Default | Example | Description
+:-:|:-:|:-:|:-:|---
+entity_id_or_time| string, datetime, or entity_id | - | `'sensor.uptime'` | (Required) The entity_id, date string, or datetime object.
+attribute| str or None | No | `None` | (Optional) attribute to extract the desired time from.
+language| string | set by user | `'en'` | (Optional) Override the default language.
+utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
+
+### Examples
+
+```jinja
+{% from 'easy_time.jinja' import clock_phrase %}
+
+{# From an entity state #}
+{{ clock_phrase('input_datetime.alarm_time') }}
+
+{# Last Updated #}
+{{ clock_phrase(states.sensor.my_energy_meter.last_updated) }}
+
+{# Calendars - start time #}
+{# By default, easy_time macros assumes you'd like the start time #}
+{{ clock_phrase('calendar.my_events') }}
+{# Calendars - end time #}
+{{ clock_phrase('calendar.my_events', 'end_time') }}
+
+{# Overriding language or utc entity attribute #}
+{{ clock_phrase("2023-04-07 00:00:00", 'en', True) }}
+{{ clock_phrase("2023-04-07 00:00:00", language='en', utc=True) }}
+{{ clock_phrase('calendar.my_events', 'end_time', 'en', True) }}
+{{ clock_phrase('calendar.my_events', 'end_time', language='en', utc=True) }}
+```
+
 
 # Questions & Support
 

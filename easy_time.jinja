@@ -1676,6 +1676,8 @@
 {%- macro hour(hour, language=None) %}
 {%- if hour is datetime %}
   {%- set hour = hour.hour %}
+{%- elif hour | regex_match(valid_entity_id_pattern) %}
+  {%- set hour = (states(hour) | as_datetime | as_local).hour %}
 {%- endif %}
 {%- set _12 = not (hour % 12) %}
 {%- set _24 = not (hour % 24) %}
