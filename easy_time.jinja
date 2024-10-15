@@ -1422,9 +1422,12 @@
 {%- if uptime %}
   {%- set value = _delta_seconds(now(), uptime) | int %}
   {%- set seconds = value | abs %}
-  {%- set future = value / seconds > 0 %}
+  {%- set current = value == 0 %}
+  {%- set future = not current and value / seconds > 0 %}
   {%- set items = _just_time(seconds, language, values, biggest, short=short, floor=floor) %}
-  {%- if future %}
+  {%- if current %}
+    {{- items }}
+  {%- elif future %}
     {{- translate('in', language=language) }} {{ items }}
   {%- else %}
     {%- set t = translate('ago', language=language) %}
