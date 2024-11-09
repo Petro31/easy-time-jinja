@@ -76,10 +76,10 @@
       1: 'a minute past {hour}',
       15: 'quarter past {hour}',
       30: 'half past {hour}',
-      45: 'quarter to {hour}',
-      59: 'a minute to {hour}',
+      45: ['quarter to {hour}',1],
+      59: ['a minute to {hour}',1],
       'past_hour': '{minute} past {hour}',
-      'to_hour': '{minute} to {hour}', 
+      'to_hour': ['{minute} to {hour}',1,-60], 
     },
     'time_of_day':{
       'midnight': 'midnight',
@@ -724,10 +724,10 @@
       1: '{hour} y un minuto',
       15: '{hour} y quarto',
       30: '{hour} y media',
-      45: '{hour} menos quarto',
-      59: '{hour} menos uno',
+      45: ['{hour} menos quarto', 1],
+      59: ['{hour} menos uno', 1],
       'past_hour': '{hour} y {minute}',
-      'to_hour': '{hour} menos {minute}', 
+      'to_hour': ['{hour} menos {minute}', 1], 
     },
     'time_of_day':{
       'midnight': 'medianoche',
@@ -1096,10 +1096,10 @@
       1: '{hour} и 1 минута',
       15: '{hour} с четвертью',
       30: '{hour} с половиной',
-      45: 'без четверти {hour}',
-      59: 'без минуты {hour}',
+      45: ['без четверти {hour}', 1],
+      59: 'без минуты {hour}', 1],
       'past_hour': '{hour} и {minute} минут',
-      'to_hour': 'без {minute} минут {hour}', 
+      'to_hour': ['без {minute} минут {hour}', 1], 
     },
     'time_of_day':{
       'midnight': 'полночь',
@@ -1720,24 +1720,38 @@
 {%- endif %}
 {%- set this_hour = dt.hour %}
 {%- set this_minute = dt.minute %}
-{%- if this_minute > 30 %}
-  {%- set hour_phrase = hour(this_hour + 1, language=language) %}
-  {%- set minute_calc = 60 - this_minute %}
-  {%- set minute_phrase = _phrase('minute', 60 * minute_calc, language, True, True) if this_minute % 5 else minute_calc | string %}
-{%- else %}
-  {%- set hour_phrase = hour(this_hour, language=language) %}
-  {%- set minute_phrase = _phrase('minute', 60 * this_minute, language, True, True) if this_minute % 5 else this_minute | string %}
-{%- endif %}
-{%- if this_minute in [0, 1, 15, 30, 45, 59] %}
-  {%- if hour_phrase in ['noon', 'midnight'] and this_minute == 0 %}
-    {%- set fmat = '{hour}' %}
-  {%- else %}
-    {%- set fmat = translate('time_of_hour', this_minute, language=language) %}
+{%- set fmat = translate('time_of_hour', this_minute, language=language) %}
+
+{%- if fmat is none and this_minute >= 30 %}
+  {%- if this_minute <= 45 %}
+    {%- set fmat = translate('time_of_hour', 'past_half_hour', language=language) %}
   {%- endif %}
-{%- elif this_minute > 30 %}
-  {%- set fmat = translate('time_of_hour', 'to_hour', language=language) %}
-{%- else %}
+  {%- if fmat is none %}
+    {%- set fmat = translate('time_of_hour', 'to_hour', language=language) %}
+  {%- endif %}
+{%- endif %}
+
+{%- if fmat is none and this_minute < 30 and this_minute >= 15 %}
+  {%- set fmat = translate('time_of_hour', 'to_half_hour', language=language) %}
+{%- endif %}
+
+{%- if fmat is none %}
   {%- set fmat = translate('time_of_hour', 'past_hour', language=language) %}
+{%- endif %}
+
+{%- if fmat is string() %}
+  {%- if fmat[1] is number %}
+      {%- set this_hour = this_hour + fmat[1]  %}
+  {%- endif %}
+  {%- if fmat[2] is number %}
+      {%- set this_minute = this_minute + fmat[2]|abs  %}
+  {%- endif %}
+   {%- set fmat = fmat[0] %}
+{%- endif %}
+{%- set hour_phrase = hour(this_hour, language=language) %}
+{%- set minute_phrase = _phrase('minute', 60 * this_minute, language, True, True) if this_minute % 5 else this_minute | string %}
+{%- if hour_phrase in ['noon', 'midnight'] and this_minute == 0 %}
+   {%- set fmat = '{hour}' %}
 {%- endif %}
 {{- fmat.format(hour=hour_phrase, minute=minute_phrase) -}}
 {%- endmacro %}
