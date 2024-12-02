@@ -1516,6 +1516,16 @@
 {{- _next_weekday(weekday, -7) }}
 {%- endmacro %}
 
+{%- macro nearest_day(weekday) %}
+{%- set today_timestamp = as_timestamp(today_at())|int %}
+{%- set this_weekday_timestamp = as_timestamp(this_weekday(weekday))|int %}
+{%- if today_timestamp <  this_weekday_timestamp %}
+  {{- _next_weekday(weekday, 0) }}
+{%- else %}
+  {{- _next_weekday(weekday, 7) }}
+{%- endif %}
+{%- endmacro %}
+
 {%- macro days_in_month(month=None) %}
 {%- set today = today_at() %}
 {%- set input = month if month is not none else today.month %}
