@@ -543,14 +543,14 @@ day | number
 31st | 31
 </td></tr> </table>
 
-## `this_weekday(weekday)`, `last_weekday(weekday)`, `next_weekday(weekday)`
+## `this_weekday(weekday)`, `last_weekday(weekday)`, `next_weekday(weekday)`, `nearest_day(weekday)`
 
 Get the day of the week, in the future or past.
 
 ### Examples
 
 ```jinja
-{% from 'easy_time.jinja' import this_weekday, last_weekday, next_weekday %}
+{% from 'easy_time.jinja' import this_weekday, last_weekday, next_weekday, nearest_day %}
 
 {# Get Tuesdays date, this week #}
 {{ this_weekday(2) | as_datetime }}
@@ -560,6 +560,9 @@ Get the day of the week, in the future or past.
 
 {# Get last Tuesdays date #}
 {{ last_weekday(2) | as_datetime}}
+
+{# Get next Tuesdays date #}
+{{ nearest_day(2) | as_datetime}}
 ```
 
 ## `month_week_day(month, week, weekday)`
