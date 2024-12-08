@@ -236,8 +236,8 @@
       59: '1 voor {next_hour}',
       'past_hour': '{this_minute} over {hour}',
       'to_hour': '{minute_to_60} voor {next_hour}', 
-      'past_halfhour': '{minute_to_30} over half {next_hour}',
-      'to_halfhour': '{minute_to_30} voor half {next_hour}', 
+      'past_half_hour': '{minute_to_30} over half {next_hour}',
+      'to_half_hour': '{minute_to_30} voor half {next_hour}', 
       'format': '12-hr',
   
     },
@@ -1775,12 +1775,12 @@
 {%- elif this_minute > 30 %}
   {%- set fmat = translate('time_of_hour', 'to_hour', language=language) %}
   {%- if this_minute < 45 %}
-    {%- set fmat = translate('time_of_hour', 'past_halfhour', fallback=fmat,  language=language) %}
+    {%- set fmat = translate('time_of_hour', 'past_half_hour', fallback=fmat,  language=language) %}
   {%- endif %}
 {%- else %}
   {%- set fmat = translate('time_of_hour', 'past_hour', language=language) %}
   {%- if this_minute > 15 %}
-    {%- set fmat = translate('time_of_hour', 'to_halfhour', fallback=fmat,  language=language) %}
+    {%- set fmat = translate('time_of_hour', 'to_half_hour', fallback=fmat,  language=language) %}
   {%- endif %}
 {%- endif %}
 {{- fmat.format(hour=hour_phrase, this_hour=this_hour_phrase, next_hour=next_hour_phrase, minute=minute_phrase, this_minute=this_minute_phrase, minute_to_60=minute_to_60_phrase, minute_to_30=minute_to_30_phrase) -}}
