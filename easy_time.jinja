@@ -1,4 +1,4 @@
-{%- set default_language = 'en' %}
+{%- set default_language = 'en' -%}
 {%- set languages = {
   'en':{
     '_language': 'English',
@@ -84,7 +84,7 @@
     'time_of_day':{
       'midnight': 'midnight',
       'noon': 'noon',
-    },
+    },  
   },
   'sk':{
     '_language': 'Slovak',
@@ -226,7 +226,25 @@
       'oktober',
       'november',
       'december',
-    ]
+    ],
+    'time_of_hour':{
+      0: '{hour} uur',
+      1: '1 over {hour}',
+      15: 'kwart over {hour}',
+      30: 'half {next_hour}',
+      45: 'kwart voor {next_hour}',
+      59: '1 voor {next_hour}',
+      'past_hour': '{this_minute} over {hour}',
+      'to_hour': '{minute_to_60} voor {next_hour}', 
+      'past_halfhour': '{minute_to_30} over half {next_hour}',
+      'to_halfhour': '{minute_to_30} voor half {next_hour}', 
+      'format': '12-hr',
+  
+    },
+    'time_of_day':{
+      'midnightx': '12 middernacht',
+      'noonx': '12 \'s middags',
+    },
   },
   'sv':{
     '_language': 'Svenska',
@@ -724,10 +742,10 @@
       1: '{hour} y un minuto',
       15: '{hour} y quarto',
       30: '{hour} y media',
-      45: ['{hour} menos quarto', 1],
-      59: ['{hour} menos uno', 1],
+      45: '{hour} menos quarto',
+      59: '{hour} menos uno',
       'past_hour': '{hour} y {minute}',
-      'to_hour': ['{hour} menos {minute}', 1], 
+      'to_hour': '{hour} menos {minute}', 
     },
     'time_of_day':{
       'midnight': 'medianoche',
@@ -1096,10 +1114,10 @@
       1: '{hour} и 1 минута',
       15: '{hour} с четвертью',
       30: '{hour} с половиной',
-      45: ['без четверти {hour}', 1],
-      59: 'без минуты {hour}', 1],
+      45: 'без четверти {hour}',
+      59: 'без минуты {hour}',
       'past_hour': '{hour} и {minute} минут',
-      'to_hour': ['без {minute} минут {hour}', 1], 
+      'to_hour': 'без {minute} минут {hour}', 
     },
     'time_of_day':{
       'midnight': 'полночь',
@@ -1692,7 +1710,7 @@
 {%- endif %}
 {%- endmacro %}
 
-{%- macro hour(hour, language=None) %}
+{% macro hour(hour, format=None, language=None) -%}
 {%- if hour is datetime %}
   {%- set hour = hour.hour %}
 {%- elif hour | regex_match(valid_entity_id_pattern) %}
@@ -1700,17 +1718,24 @@
 {%- endif %}
 {%- set _12 = not (hour % 12) %}
 {%- set _24 = not (hour % 24) %}
-{%- set _12hr = translate('time','format') == '12-hr' %}
-{%- if _12 and _24 and _12hr %}
-  {{- translate('time_of_day', 'midnight', language=language) }}
-{%- elif _12 and _12hr %}
-  {{- translate('time_of_day', 'noon', language=language) }}
+{%- if hour is datetime %}
+  {%- set format = translate('time','format') %}
+{%- endif %}
+{%- set is_12hr = format == '12-hr' %}
+{%- set hour = hour % 12 if is_12hr else hour % 24 %}
+{%- if hour == 0  %}
+  {%- set hour = 24 if (_24 and not is_12hr) else 12 %}
+{%- endif %}
+{%- if _24 and is_12hr %}
+  {{- translate('time_of_day', 'midnight',  fallback=hour,  language=language) }}
+{%- elif _12 and is_12hr %}
+  {{- translate('time_of_day', 'noon',  fallback=hour,  language=language) }}
 {%- else %}
-  {{- hour % 12 if _12hr else hour }}
+  {{- hour }}
 {%- endif %}
 {%- endmacro %}
 
-{%- macro clock_phrase(input=None, attr=None, utc=False, language=None) %}
+{% macro clock_phrase(input=None, attr=None, utc=False, language=None) -%}
 {%- if input is none %}
   {%- set dt = now() %}
 {%- elif input is datetime %}
@@ -1718,40 +1743,45 @@
 {%- else %}
   {%- set dt = _to_datetime(input, attr, utc) | as_datetime %}
 {%- endif %}
+{%- set format = translate('time_of_hour','format') %}
 {%- set this_hour = dt.hour %}
+{%- set this_hour_phrase = hour(this_hour, format=format, language=language) %}
+{%- set next_hour_phrase = hour(this_hour + 1, format=format, language=language) %}
 {%- set this_minute = dt.minute %}
-{%- set fmat = translate('time_of_hour', this_minute, language=language) %}
-
-{%- if fmat is none and this_minute >= 30 %}
-  {%- if this_minute <= 45 %}
-    {%- set fmat = translate('time_of_hour', 'past_half_hour', language=language) %}
+{%- set this_minute_phrase = this_minute | string %}
+{%- set minute_to_60 = 60 - this_minute %}
+{%- set minute_to_60_phrase = minute_to_60 | string %}
+{%- if this_minute > 15 and this_minute < 45 %}
+  {%- set minute_to_30 = 30 - this_minute %}
+  {%- if minute_to_30 < 0 %}
+    {%- set minute_to_30 = - minute_to_30 %}
   {%- endif %}
-  {%- if fmat is none %}
-    {%- set fmat = translate('time_of_hour', 'to_hour', language=language) %}
+  {%- set minute_to_30_phrase = minute_to_30 | string %}
+{%- else %}
+  {%- set minute_to_30_phrase = 'unknown' %}
+{%- endif %}
+{%- if this_minute > 30 %}
+  {%- set hour_phrase = next_hour_phrase %}
+  {%- set minute_calc = 60 - this_minute %}
+  {%- set minute_phrase = _phrase('minute', 60 * minute_calc, language, True, True) if this_minute % 5 else minute_calc | string %}
+{%- else %}
+  {%- set hour_phrase = this_hour_phrase %}
+  {%- set minute_phrase = _phrase('minute', 60 * this_minute, language, True, True) if this_minute % 5 else this_minute | string %}
+{%- endif %}
+{%- if (hour_phrase|float(-999) ==-999) and this_minute == 0 %}
+    {%- set fmat = '{hour}' %}
+{%- elif this_minute in [0, 1, 15, 30, 45, 59] %}
+    {%- set fmat = translate('time_of_hour', this_minute, language=language) %}
+{%- elif this_minute > 30 %}
+  {%- set fmat = translate('time_of_hour', 'to_hour', language=language) %}
+  {%- if this_minute < 45 %}
+    {%- set fmat = translate('time_of_hour', 'past_halfhour', fallback=fmat,  language=language) %}
   {%- endif %}
-{%- endif %}
-
-{%- if fmat is none and this_minute < 30 and this_minute >= 15 %}
-  {%- set fmat = translate('time_of_hour', 'to_half_hour', language=language) %}
-{%- endif %}
-
-{%- if fmat is none %}
+{%- else %}
   {%- set fmat = translate('time_of_hour', 'past_hour', language=language) %}
-{%- endif %}
-
-{%- if fmat is string() %}
-  {%- if fmat[1] is number %}
-      {%- set this_hour = this_hour + fmat[1]  %}
+  {%- if this_minute > 15 %}
+    {%- set fmat = translate('time_of_hour', 'to_halfhour', fallback=fmat,  language=language) %}
   {%- endif %}
-  {%- if fmat[2] is number %}
-      {%- set this_minute = this_minute + fmat[2]|abs  %}
-  {%- endif %}
-   {%- set fmat = fmat[0] %}
 {%- endif %}
-{%- set hour_phrase = hour(this_hour, language=language) %}
-{%- set minute_phrase = _phrase('minute', 60 * this_minute, language, True, True) if this_minute % 5 else this_minute | string %}
-{%- if hour_phrase in ['noon', 'midnight'] and this_minute == 0 %}
-   {%- set fmat = '{hour}' %}
-{%- endif %}
-{{- fmat.format(hour=hour_phrase, minute=minute_phrase) -}}
+{{- fmat.format(hour=hour_phrase, this_hour=this_hour_phrase, next_hour=next_hour_phrase, minute=minute_phrase, this_minute=this_minute_phrase, minute_to_60=minute_to_60_phrase, minute_to_30=minute_to_30_phrase) -}}
 {%- endmacro %}
