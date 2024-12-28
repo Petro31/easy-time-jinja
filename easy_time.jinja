@@ -226,7 +226,24 @@
       'oktober',
       'november',
       'december',
-    ]
+    ],
+    'time_of_hour':{
+      0: '{hour} uur',
+      1: '1 over {hour}',
+      15: 'kwart over {hour}',
+      30: 'half {hour}',
+      45: 'kwart voor {hour}',
+      59: '1 vor {hour}',
+      'past_hour': '{minute} over {hour}',
+      'to_hour': '{minute} voor {hour}', 
+      'to_half_hour': '{minute} voor half {hour}',
+      'past_half_hour': '{minute} over half {hour}', 
+      'half_hour': 'half {hour}',
+    },
+    'time_of_day':{
+      'midnight': 'middernacht',
+      'noon': 'middag',
+    },
   },
   'sv':{
     '_language': 'Svenska',
@@ -1814,7 +1831,22 @@
   {%- set hour_phrase = hour(this_hour, language=language) %}
   {%- set minute_phrase = _phrase('minute', 60 * this_minute, language, True, True) if this_minute % 5 else this_minute | string %}
 {%- endif %}
-{%- if this_minute in [0, 1, 15, 30, 45, 59] %}
+{%- set this_config = translate('time_of_hour') %}
+{%- if (16 <= this_minute <= 29 and 'to_half_hour' in this_config) or (31 <= this_minute <= 44 and 'past_half_hour' in this_config) or (this_minute == 30 and 'half_hour' in this_config) %}
+  {%- set hour_phrase = hour(this_hour + 1, language=language) %}
+  {%- if 16 <= this_minute <= 29 %}
+    {%- set minute_calc = 30 - this_minute %}
+    {%- set fmat = translate('time_of_hour', 'to_half_hour', language=language) %}
+    {%- set minute_phrase = _phrase('minute', 60 * minute_calc, language, True, True) if this_minute % 5 else minute_calc | string %}
+  {%- elif 31 <= this_minute <= 44 %}
+    {%- set minute_calc = this_minute - 30 %}
+    {%- set fmat = translate('time_of_hour', 'past_half_hour', language=language) %}
+    {%- set minute_phrase = _phrase('minute', 60 * minute_calc, language, True, True) if this_minute % 5 else minute_calc | string %}
+  {%- else %}
+    {%- set minute_calc = None %}
+    {%- set fmat = translate('time_of_hour', 'half_hour', language=language) %}
+  {%- endif %}
+{%- elif this_minute in [0, 1, 15, 30, 45, 59] %}
   {%- if hour_phrase in ['noon', 'midnight'] and this_minute == 0 %}
     {%- set fmat = '{hour}' %}
   {%- else %}
