@@ -1735,7 +1735,7 @@
 {%- endif -%}
 {%- endmacro -%}
 
-{%- macro month(month=None, language=None) %}
+{%- macro month(month=None, language=None, short=False) %}
 {%- if month is datetime %}
 {%- set idx = month.month - 1 %}
 {%- elif month is integer and month > 0 %}
@@ -1745,10 +1745,11 @@
 {%- else %}
 {%- set idx = now().month - 1 %}
 {%- endif %}
-{{- translate('months', index=idx, language=language) }}
+{%- set ret = translate('months', index=idx, language=language) %}
+{{- ret[:3] if short else ret }}
 {%- endmacro %}
 
-{%- macro weekday(weekday=None, language=None) %}
+{%- macro weekday(weekday=None, language=None, short=False) %}
 {%- if weekday is datetime %}
 {%- set idx = weekday.weekday() %}
 {%- elif weekday is integer and weekday > 0 %}
@@ -1758,7 +1759,8 @@
 {%- else %}
 {%- set idx = now().weekday() %}
 {%- endif %}
-{{- translate('days', index=idx, language=language) }}
+{%- set ret = translate('days', index=idx, language=language) %}
+{{- ret[:3] if short else ret }}
 {%- endmacro %}
 
 {%- macro count_the_days(input, attr, utc=False) %}

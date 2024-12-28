@@ -752,6 +752,9 @@ Outputs the current month in your langauge.  (Optional) Add the [month](https://
 
 {# December #}
 {{ month(12) }}
+
+{# Dec #}
+{{ month(12, short=True) }}
 ```
 
 ## `weekday(weekday)`
@@ -766,6 +769,9 @@ Outputs the current weekday in your langauge.  (Optional) Add the [weekday](http
 
 {# Monday #}
 {{ weekday(1) }}
+
+{# Mon #}
+{{ weekday(1, short=True) }}
 ```
 
 ## `hour(hour)`
