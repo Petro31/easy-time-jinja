@@ -1288,8 +1288,8 @@
 {%- macro _check_for_duration_sensor(input) %}
 {%- if input is string and input | regex_search(valid_entity_id_pattern) and input.startswith('sensor') and states[input] is not none and states[input].attributes.device_class is defined and states[input].attributes.unit_of_measurement is defined -%}
   {%- set obj = states[input] -%}
-  {%- set divisor = _duration_sensor.get(obj.attributes.unit_of_measurement) -%}
-  {{- (obj.state | float / divisor) | string | as_timedelta -}}
+  {%- set multiplier = _duration_sensor.get(obj.attributes.unit_of_measurement) -%}
+  {{- (obj.state | float * multiplier) | string | as_timedelta -}}
 {%- else %}
   {{- '' -}}
 {%- endif -%}
