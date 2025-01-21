@@ -239,6 +239,7 @@
       'to_half_hour': '{minute} voor half {hour}',
       'past_half_hour': '{minute} over half {hour}', 
       'half_hour': 'half {hour}',
+      'use_twelve': true,
     },
     'time_of_day':{
       'midnight': 'middernacht',
@@ -1805,13 +1806,15 @@
 {%- endif %}
 {%- set _12 = not (hour % 12) %}
 {%- set _24 = not (hour % 24) %}
+{%- set use_twelve = translate('time_of_day', 'use_twelve', language=language, fallback=false) %}
 {%- set _12hr = translate('time','format') == '12-hr' %}
-{%- if _12 and _24 and _12hr %}
+{%- if _12 and _24 and _12hr and not use_twelve %}
   {{- translate('time_of_day', 'midnight', language=language) }}
-{%- elif _12 and _12hr %}
+{%- elif _12 and _12hr and not use_twelve %}
   {{- translate('time_of_day', 'noon', language=language) }}
 {%- else %}
-  {{- hour % 12 if _12hr else hour }}
+  {%- set ret = hour % 12 if _12hr else hour %}
+  {{- 12 if ret == 0 and use_twelve else ret }}
 {%- endif %}
 {%- endmacro %}
 
@@ -1833,7 +1836,7 @@
   {%- set hour_phrase = hour(this_hour, language=language) %}
   {%- set minute_phrase = _phrase('minute', 60 * this_minute, language, True, True) if this_minute % 5 else this_minute | string %}
 {%- endif %}
-{%- set this_config = translate('time_of_hour') %}
+{%- set this_config = translate('time_of_hour', language=language) %}
 {%- if (16 <= this_minute <= 29 and 'to_half_hour' in this_config) or (31 <= this_minute <= 44 and 'past_half_hour' in this_config) or (this_minute == 30 and 'half_hour' in this_config) %}
   {%- set hour_phrase = hour(this_hour + 1, language=language) %}
   {%- if 16 <= this_minute <= 29 %}
