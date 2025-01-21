@@ -1396,7 +1396,7 @@
   {%- set index = values.index(values | first | default) %}
   {%- for item in values[index:] %}
     {%- set duration = _durations.get(item, 1) %}
-    {%- set period = _periods.get(item, 1) %}
+    {%- set period = _periods.get(item, 0) %}
     {%- set value = ((seconds // duration) % (period if period else duration)) | int %}
     {%- if value > 0 or raw %}
       {%- if ns.ret | length == 0 %}
