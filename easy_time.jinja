@@ -2070,7 +2070,7 @@
 {%- endif %}
 {%- endmacro %}
 
-{%- macro hour(hour, language=None, override_time_format=None) %}
+{%- macro hour(hour, language=None, override_time_format='') %}
 {%- if hour is datetime %}
   {%- set hour = hour.hour %}
 {%- elif hour | regex_match(valid_entity_id_pattern) %}
@@ -2079,8 +2079,8 @@
 {%- set _12 = not (hour % 12) %}
 {%- set _24 = not (hour % 24) %}
 {%- set use_twelve = translate('time_of_day', 'use_twelve', language=language, fallback=false) %}
-{%- if override_time_format is string -%}
-  {%- set _12hr = override_time_format == '12-hr' %}
+{%- if override_time_format == '12-hr' -%}
+  {%- set _12hr = True %}
 {%- else -%}
   {%- set _12hr = translate('time','format', language=language) == '12-hr' %}
 {%- endif -%}
