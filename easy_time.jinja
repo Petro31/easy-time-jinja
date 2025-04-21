@@ -242,6 +242,7 @@
       'past_half_hour': '{minute} over half {hour}',
       'half_hour': 'half {hour}',
       'use_twelve': true,
+      'override_time_format': '12-hr',
     },
     'time_of_day':{
       'midnight': 'middernacht',
@@ -400,6 +401,7 @@
       'to_half_hour': '{minute} vor halb {hour}',
       'past_half_hour': '{minute} nach halb {hour}',
       'half_hour': 'halb {hour}',
+      'override_time_format': '12-hr',
     },
     'time_of_day':{
       'midnight': 'Mitternacht',
@@ -2068,7 +2070,7 @@
 {%- endif %}
 {%- endmacro %}
 
-{%- macro hour(hour, language=None) %}
+{%- macro hour(hour, language=None, override_time_format=None) %}
 {%- if hour is datetime %}
   {%- set hour = hour.hour %}
 {%- elif hour | regex_match(valid_entity_id_pattern) %}
@@ -2077,7 +2079,11 @@
 {%- set _12 = not (hour % 12) %}
 {%- set _24 = not (hour % 24) %}
 {%- set use_twelve = translate('time_of_day', 'use_twelve', language=language, fallback=false) %}
-{%- set _12hr = translate('time','format', language=language) == '12-hr' %}
+{%- if override_time_format is string -%}
+  {%- set _12hr = override_time_format == '12-hr' %}
+{%- else -%}
+  {%- set _12hr = translate('time','format', language=language) == '12-hr' %}
+{%- endif -%}
 {%- if _12 and _24 and _12hr and not use_twelve %}
   {{- translate('time_of_day', 'midnight', language=language) }}
 {%- elif _12 and _12hr and not use_twelve %}
@@ -2098,17 +2104,18 @@
 {%- endif %}
 {%- set this_hour = dt.hour %}
 {%- set this_minute = dt.minute %}
+{%- set override_time_format = translate('time_of_hour', 'override_time_format', language=language) %}
 {%- if this_minute > 30 %}
-  {%- set hour_phrase = hour(this_hour + 1, language=language) %}
+  {%- set hour_phrase = hour(this_hour + 1, language=language, override_time_format=override_time_format) %}
   {%- set minute_calc = 60 - this_minute %}
   {%- set minute_phrase = _phrase('minute', 60 * minute_calc, language, True, True) if this_minute % 5 else minute_calc | string %}
 {%- else %}
-  {%- set hour_phrase = hour(this_hour, language=language) %}
+  {%- set hour_phrase = hour(this_hour, language=language, override_time_format=override_time_format) %}
   {%- set minute_phrase = _phrase('minute', 60 * this_minute, language, True, True) if this_minute % 5 else this_minute | string %}
 {%- endif %}
 {%- set this_config = translate('time_of_hour', language=language) %}
 {%- if (16 <= this_minute <= 29 and 'to_half_hour' in this_config) or (31 <= this_minute <= 44 and 'past_half_hour' in this_config) or (this_minute == 30 and 'half_hour' in this_config) %}
-  {%- set hour_phrase = hour(this_hour + 1, language=language) %}
+  {%- set hour_phrase = hour(this_hour + 1, language=language, override_time_format=override_time_format) %}
   {%- if 16 <= this_minute <= 29 %}
     {%- set minute_calc = 30 - this_minute %}
     {%- set fmat = translate('time_of_hour', 'to_half_hour', language=language) %}
