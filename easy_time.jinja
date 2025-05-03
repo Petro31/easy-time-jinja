@@ -1781,7 +1781,7 @@
     {%- if '%s' in t %}
       {{ t % items }}
     {%- else %}
-      {{- items }} {{ translate('ago', language=language) }}
+      {{- items }} {{ t }}
     {%- endif %}
   {%- endif %}
 {%- else %}
@@ -2045,7 +2045,7 @@
     {%- if '%s' in t %}
       {{- t % ret }}
     {%- else %}
-      {{- ret }} {{ translate('ago', language=language) }}
+      {{- ret }} {{ t }}
     {%- endif %}
   {%- endif %}
 {%- endif %}
