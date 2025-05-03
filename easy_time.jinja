@@ -1779,7 +1779,7 @@
   {%- else %}
     {%- set t = translate('ago', language=language) %}
     {%- if '%s' in t %}
-      {{ t % items }}
+      {{- t % items }}
     {%- else %}
       {{- items }} {{ translate('ago', language=language) }}
     {%- endif %}
