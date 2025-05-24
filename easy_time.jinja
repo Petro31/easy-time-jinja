@@ -1563,32 +1563,32 @@
 {#- This macro is ugly, but fast, don't change it #}
 {%- set l = language or default_language %}
 {%- set dflt = _bad_value if fallback is none else fallback %}
-{%- if k2 is not none and k3 is not none and k4 is not none and k5 is not none %}
-{%- set output = languages.get(l, {}).get(k1, {}).get(k2, {}).get(k3, {}).get(k4, {}).get(k5) %}
-{%- elif k2 is not none and k3 is not none and k4 is not none and k5 is none %}
-{%- set output = languages.get(l, {}).get(k1, {}).get(k2, {}).get(k3, {}).get(k4) %}
-{%- elif k2 is not none and k3 is not none and k4 is none and k5 is none %}
-{%- set output = languages.get(l, {}).get(k1, {}).get(k2, {}).get(k3) %}
-{%- elif k2 is not none and k3 is none and k4 is none and k5 is none %}
-{%- set output = languages.get(l, {}).get(k1, {}).get(k2) %}
-{%- else %}
-{%- set output = languages.get(l, {}).get(k1) %}
+{%- if k2 is not none and k3 is not none and k4 is not none and k5 is not none -%}
+  {%- set output = languages.get(l, {}).get(k1, {}).get(k2, {}).get(k3, {}).get(k4, {}).get(k5) -%}
+{%- elif k2 is not none and k3 is not none and k4 is not none and k5 is none -%}
+  {%- set output = languages.get(l, {}).get(k1, {}).get(k2, {}).get(k3, {}).get(k4) -%}
+{%- elif k2 is not none and k3 is not none and k4 is none and k5 is none -%}
+  {%- set output = languages.get(l, {}).get(k1, {}).get(k2, {}).get(k3) -%}
+{%- elif k2 is not none and k3 is none and k4 is none and k5 is none -%}
+  {%- set output = languages.get(l, {}).get(k1, {}).get(k2) -%}
+{%- else -%}
+  {%- set output = languages.get(l, {}).get(k1) -%}
 {%- endif %}
-{%- if output is none %}
-{{- dflt }}
-{%- elif index is not none and index is integer and output is list %}
-{%- if output[index] is string %}
-{{- output[index] }}
+{%- if output is none -%}
+  {{- dflt -}}
+{%- elif index is not none and index is integer and output is list -%}
+  {%- if output[index] is string -%}
+    {{- output[index] -}}
+  {%- else -%}
+    {%- if value is not none and value in output[index] -%}
+      {{- output[index][value] -}}
+    {%- else -%}
+      {{- output[index][0] -}}
+    {%- endif -%}
+  {%- endif -%}
 {%- else %}
-{%- if value is not none and value in output[index] %}
-{{- output[index][value] }}
-{%- else %}
-{{- output[index][0] }}
-{%- endif %}
-{%- endif %}
-{%- else %}
-{{- output }}
-{%- endif %}
+  {{- output -}}
+{%- endif -%}
 {%- endmacro %}
 
 {%- macro _get_language_time_format(override, language) %}
