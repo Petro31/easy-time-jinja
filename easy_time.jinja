@@ -1574,9 +1574,7 @@
 {%- else -%}
   {%- set output = languages.get(l, {}).get(k1) -%}
 {%- endif %}
-{%- if output is none -%}
-  {{- dflt -}}
-{%- elif index is not none and index is integer and output is list -%}
+{%- if output is not none and output is list and index is not none and index is integer -%}
   {%- if output[index] is string -%}
     {{- output[index] -}}
   {%- else -%}
@@ -1586,8 +1584,10 @@
       {{- output[index][0] -}}
     {%- endif -%}
   {%- endif -%}
-{%- else %}
+{%- elif output is not none and output is not list %}
   {{- output -}}
+{%- else -%}
+  {{- dflt -}}
 {%- endif -%}
 {%- endmacro %}
 
