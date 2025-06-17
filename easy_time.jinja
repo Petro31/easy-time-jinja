@@ -1559,7 +1559,7 @@
 {%- endfor %}
 {%- endmacro %}
 
-{%- macro translate(k1, k2=None, k3=None, k4=None, k5=None, index=None, fallback=None, language=None, value_key=None) %}
+{%- macro translate(k1, k2=None, k3=None, k4=None, k5=None, index=None, fallback=None, language=None, index_key=None) %}
 {#- This macro is ugly, but fast, don't change it #}
 {%- set l = language or default_language %}
 {%- set dflt = _bad_value if fallback is none else fallback %}
@@ -1574,20 +1574,20 @@
 {%- else -%}
   {%- set output = languages.get(l, {}).get(k1) -%}
 {%- endif %}
-{%- if output is not none and output is list and index is not none and index is integer -%}
-  {%- if output[index] is string -%}
-    {{- output[index] -}}
-  {%- else -%}
-    {%- if value_key is not none and value_key in output[index] -%}
-      {{- output[index][value_key] -}}
+{%- if output is none -%}
+  {{- dflt -}}
+{%- elif output is list and index is not none and index is integer -%}
+  {%- if output[index] is mapping -%}
+    {%- if index_key is not none and index_key in output[index] -%}
+      {{- output[index][index_key] -}}
     {%- else -%}
       {{- output[index][0] -}}
     {%- endif -%}
+  {%- else -%}
+    {{- output[index] -}}
   {%- endif -%}
-{%- elif output is not none and output is not list %}
+{%- else %}
   {{- output -}}
-{%- else -%}
-  {{- dflt -}}
 {%- endif -%}
 {%- endmacro %}
 
@@ -1695,7 +1695,7 @@
 {%- set func = _get_period_max if max else _get_period_value %}
 {%- endif %}
 {%- set value = func(id, uptime_seconds) | int %}
-{%- set name = translate('time', id, index=2, language=language, value_key=value) if value != 1 else translate('time', id, index=1, language=language) %}
+{%- set name = translate('time', id, index=2, language=language, index_key=value) if value != 1 else translate('time', id, index=1, language=language) %}
 {{- '{} {}'.format(value, name) if value | int > 0 or raw else '' -}}
 {% endmacro %}
 
@@ -1735,7 +1735,7 @@
       {%- if short %}
         {%- set units = translate('time', item, index=0, language=language) %}
       {%- else %}
-        {%- set units = translate('time', item, index=2, language=language, value_key=chosen) if chosen != 1 else translate('time', item, index=1, language=language) %}
+        {%- set units = translate('time', item, index=2, language=language, index_key=chosen) if chosen != 1 else translate('time', item, index=1, language=language) %}
         {%- set units = ' %s' % units %}
       {%- endif %}
       {%- set ns.ret = ns.ret + [ '%s%s' % (chosen, units) ] %}
