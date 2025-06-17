@@ -1559,7 +1559,7 @@
 {%- endfor %}
 {%- endmacro %}
 
-{%- macro translate(k1, k2=None, k3=None, k4=None, k5=None, index=None, fallback=None, language=None, value=None) %}
+{%- macro translate(k1, k2=None, k3=None, k4=None, k5=None, index=None, fallback=None, language=None, value_key=None) %}
 {#- This macro is ugly, but fast, don't change it #}
 {%- set l = language or default_language %}
 {%- set dflt = _bad_value if fallback is none else fallback %}
@@ -1578,8 +1578,8 @@
   {%- if output[index] is string -%}
     {{- output[index] -}}
   {%- else -%}
-    {%- if value is not none and value in output[index] -%}
-      {{- output[index][value] -}}
+    {%- if value_key is not none and value_key in output[index] -%}
+      {{- output[index][value_key] -}}
     {%- else -%}
       {{- output[index][0] -}}
     {%- endif -%}
@@ -1695,7 +1695,7 @@
 {%- set func = _get_period_max if max else _get_period_value %}
 {%- endif %}
 {%- set value = func(id, uptime_seconds) | int %}
-{%- set name = translate('time', id, index=2, language=language, value=value) if value != 1 else translate('time', id, index=1, language=language) %}
+{%- set name = translate('time', id, index=2, language=language, value_key=value) if value != 1 else translate('time', id, index=1, language=language) %}
 {{- '{} {}'.format(value, name) if value | int > 0 or raw else '' -}}
 {% endmacro %}
 
@@ -1735,7 +1735,7 @@
       {%- if short %}
         {%- set units = translate('time', item, index=0, language=language) %}
       {%- else %}
-        {%- set units = translate('time', item, index=2, language=language, value=chosen) if chosen != 1 else translate('time', item, index=1, language=language) %}
+        {%- set units = translate('time', item, index=2, language=language, value_key=chosen) if chosen != 1 else translate('time', item, index=1, language=language) %}
         {%- set units = ' %s' % units %}
       {%- endif %}
       {%- set ns.ret = ns.ret + [ '%s%s' % (chosen, units) ] %}
