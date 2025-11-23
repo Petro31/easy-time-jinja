@@ -589,7 +589,7 @@ This macro will return the nth day in the nth week of a month.  This is best use
 
 ## `month_day(month, day)`
 
-This macro will return the nth day in the nth week of a month.  This is best used to get the 2nd tuesday of any month, or the Thanksgiving American Holiday!
+This macro will return the nth day of a month.
 
 ### Examples
 
@@ -603,7 +603,7 @@ This macro will return the nth day in the nth week of a month.  This is best use
 
 ## `last_day_in_month(month, weekday)`
 
-This macro will return the last day in a moth.  Do you ever want the last Sunday of each month?  Look no futhur.
+This macro will return the last day in a month.  Do you ever want the last Sunday of each month?  Look no futhur.
 
 ### Examples
 
