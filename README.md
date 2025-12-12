@@ -98,7 +98,7 @@ language| string | set by user | `'en'` | (Optional) Override the default langua
 utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
 max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum significant period.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`
 short | boolean | `False` | `True` | (Optional) Outputs abbreviated values.  E.g. `12hr 50min`.
-floor | boolean |  `False` | `True` | (Optional) The time will chop the value instead of rounding.  E.g.  If the duration is 10.6 mintues, the output will be `10 Minutes` instead of `11 minutes`.
+floor | boolean |  `False` | `True` | (Optional) The time will chop the value instead of rounding.  E.g.  If the duration is 10.6 minutes, the output will be `10 Minutes` instead of `11 minutes`.
 
 ### Examples
 
@@ -211,7 +211,7 @@ language| string | set by user | `'en'` | (Optional) Override the default langua
 utc| boolean | `False` | `True` | (Optional) If your `uptime` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
 max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum significant period.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`
 short | boolean | `False` | `True` | (Optional) Outputs abbreviated values.  E.g. `12hr 50min`.
-floor | boolean |  `False` | `True` | (Optional) The time will chop the value instead of rounding.  E.g.  If the duration is 10.6 mintues, the output will be `10 Minutes` instead of `11 minutes`.
+floor | boolean |  `False` | `True` | (Optional) The time will chop the value instead of rounding.  E.g.  If the duration is 10.6 minutes, the output will be `10 Minutes` instead of `11 minutes`.
 
 ### Examples
 
@@ -330,7 +330,7 @@ utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time1` argum
 utc1| boolean | `False` | `True` | (Optional) If your `entity_id_or_time2` argument does not have a timezone and you wish to treat it as a UTC timestamp, set this to True.  Otherwise the function assumes `Local` calculations.
 max_period| string | `'year'` | '`hour`'| (Optional) Truncate the maximum significant period.  Available options: `year`, `week`, `day`, `hour`, `minute` and `second`
 short | boolean | `False` | `True` | (Optional) Outputs abbreviated values.  E.g. `12hr 50min`.
-floor | boolean |  `False` | `True` | (Optional) The time will chop the value instead of rounding.  E.g.  If the duration is 10.6 mintues, the output will be `10 Minutes` instead of `11 minutes`.
+floor | boolean |  `False` | `True` | (Optional) The time will chop the value instead of rounding.  E.g.  If the duration is 10.6 minutes, the output will be `10 Minutes` instead of `11 minutes`.
 
 ### Examples
 
