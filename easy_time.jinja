@@ -72,7 +72,7 @@
       'December',
     ],
     'time_of_hour':{
-      0: '{hour} o\'clock',
+      0: "{hour} o'clock",
       1: 'a minute past {hour}',
       15: 'quarter past {hour}',
       30: 'half past {hour}',
@@ -998,12 +998,35 @@
       'year': [
         'r',
         'rok',
-        'lata',
+        {
+          0: 'lat',
+          2: 'lata',
+          3: 'lata',
+          4: 'lata',
+          22: 'lata',
+          23: 'lata',
+          24: 'lata'
+        }
       ],
       'week': [
         'tyg',
         'tydzień',
-        'tygodnie',
+        {
+          0: 'tygodni',
+          2: 'tygodnie',
+          3: 'tygodnie',
+          4: 'tygodnie',
+          22: 'tygodnie',
+          23: 'tygodnie',
+          24: 'tygodnie',
+          32: 'tygodnie',
+          33: 'tygodnie',
+          34: 'tygodnie',
+          42: 'tygodnie',
+          43: 'tygodnie',
+          44: 'tygodnie',
+          52: 'tygodnie'
+        }
       ],
       'day': [
         'd',
@@ -1013,17 +1036,59 @@
       'hour': [
         'godz',
         'godzina',
-        'godziny',
+        {
+          0: 'godzin',
+          2: 'godziny',
+          3: 'godziny',
+          4: 'godziny',
+          22: 'godziny',
+          23: 'godziny',
+          24: 'godziny'
+        }
       ],
       'minute': [
         'min',
-        'minuta',
-        'minuty',
+        'minutę',
+        {
+          0: 'minut',
+          2: 'minuty',
+          3: 'minuty',
+          4: 'minuty',
+          22: 'minuty',
+          23: 'minuty',
+          24: 'minuty',
+          32: 'minuty',
+          33: 'minuty',
+          34: 'minuty',
+          42: 'minuty',
+          43: 'minuty',
+          44: 'minuty',
+          52: 'minuty',
+          53: 'minuty',
+          54: 'minuty'
+        }
       ],
       'second': [
         's',
-        'sekunda',
-        'sekundy',
+        'sekundę',
+        {
+          0: 'sekund',
+          2: 'sekundy',
+          3: 'sekundy',
+          4: 'sekundy',
+          22: 'sekundy',
+          23: 'sekundy',
+          24: 'sekundy',
+          32: 'sekundy',
+          33: 'sekundy',
+          34: 'sekundy',
+          42: 'sekundy',
+          43: 'sekundy',
+          44: 'sekundy',
+          52: 'sekundy',
+          53: 'sekundy',
+          54: 'sekundy'
+        }
       ],
     },
     'delta':{
@@ -1522,28 +1587,36 @@
 {%- endfor %}
 {%- endmacro %}
 
-{%- macro translate(k1, k2=None, k3=None, k4=None, k5=None, index=None, fallback=None, language=None) %}
+{%- macro translate(k1, k2=None, k3=None, k4=None, k5=None, index=None, fallback=None, language=None, index_key=None) %}
 {#- This macro is ugly, but fast, don't change it #}
 {%- set l = language or default_language %}
 {%- set dflt = _bad_value if fallback is none else fallback %}
-{%- if k2 is not none and k3 is not none and k4 is not none and k5 is not none %}
-{%- set output = languages.get(l, {}).get(k1, {}).get(k2, {}).get(k3, {}).get(k4, {}).get(k5) %}
-{%- elif k2 is not none and k3 is not none and k4 is not none and k5 is none %}
-{%- set output = languages.get(l, {}).get(k1, {}).get(k2, {}).get(k3, {}).get(k4) %}
-{%- elif k2 is not none and k3 is not none and k4 is none and k5 is none %}
-{%- set output = languages.get(l, {}).get(k1, {}).get(k2, {}).get(k3) %}
-{%- elif k2 is not none and k3 is none and k4 is none and k5 is none %}
-{%- set output = languages.get(l, {}).get(k1, {}).get(k2) %}
-{%- else %}
-{%- set output = languages.get(l, {}).get(k1) %}
+{%- if k2 is not none and k3 is not none and k4 is not none and k5 is not none -%}
+  {%- set output = languages.get(l, {}).get(k1, {}).get(k2, {}).get(k3, {}).get(k4, {}).get(k5) -%}
+{%- elif k2 is not none and k3 is not none and k4 is not none and k5 is none -%}
+  {%- set output = languages.get(l, {}).get(k1, {}).get(k2, {}).get(k3, {}).get(k4) -%}
+{%- elif k2 is not none and k3 is not none and k4 is none and k5 is none -%}
+  {%- set output = languages.get(l, {}).get(k1, {}).get(k2, {}).get(k3) -%}
+{%- elif k2 is not none and k3 is none and k4 is none and k5 is none -%}
+  {%- set output = languages.get(l, {}).get(k1, {}).get(k2) -%}
+{%- else -%}
+  {%- set output = languages.get(l, {}).get(k1) -%}
 {%- endif %}
-{%- if output is none %}
-{{- dflt }}
-{%- elif index is not none and index is integer and output is list %}
-{{- output[index] }}
+{%- if output is none -%}
+  {{- dflt -}}
+{%- elif output is list and index is not none and index is integer -%}
+  {%- if output[index] is mapping -%}
+    {%- if index_key is not none and index_key in output[index] -%}
+      {{- output[index][index_key] -}}
+    {%- else -%}
+      {{- output[index][0] -}}
+    {%- endif -%}
+  {%- else -%}
+    {{- output[index] -}}
+  {%- endif -%}
 {%- else %}
-{{- output}}
-{%- endif %}
+  {{- output -}}
+{%- endif -%}
 {%- endmacro %}
 
 {%- macro _get_language_time_format(override, language) %}
@@ -1650,7 +1723,7 @@
 {%- set func = _get_period_max if max else _get_period_value %}
 {%- endif %}
 {%- set value = func(id, uptime_seconds) | int %}
-{%- set name = translate('time', id, index=2, language=language) if value != 1 else translate('time', id, index=1, language=language) %}
+{%- set name = translate('time', id, index=2, language=language, index_key=value) if value != 1 else translate('time', id, index=1, language=language) %}
 {{- '{} {}'.format(value, name) if value | int > 0 or raw else '' -}}
 {% endmacro %}
 
@@ -1690,7 +1763,7 @@
       {%- if short %}
         {%- set units = translate('time', item, index=0, language=language) %}
       {%- else %}
-        {%- set units = translate('time', item, index=2, language=language) if chosen != 1 else translate('time', item, index=1, language=language) %}
+        {%- set units = translate('time', item, index=2, language=language, index_key=chosen) if chosen != 1 else translate('time', item, index=1, language=language) %}
         {%- set units = ' %s' % units %}
       {%- endif %}
       {%- set ns.ret = ns.ret + [ '%s%s' % (chosen, units) ] %}
